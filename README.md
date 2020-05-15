@@ -44,7 +44,7 @@ protoc -I. --grpc-gateway_out=logtostderr=true,paths=source_relative:./ api.prot
 ## Generate swagger definitions using protoc-gen-swagger
 
 ```
-protoc -I. --swagger_out=logtostderr=true:../api/openapi-spec api.proto
+protoc -I. --swagger_out=disable_default_errors=true,logtostderr=true:../api/openapi-spec api.proto
 ```
 
 
@@ -53,4 +53,3 @@ protoc -I. --swagger_out=logtostderr=true:../api/openapi-spec api.proto
 - What to do with request headers?
 - Patch request.
 - How to remove 200 response from delete resource request.
-- How to remove gatewayruntimeError and protobufAny from openapi specification.

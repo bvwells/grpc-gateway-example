@@ -50,7 +50,7 @@
             }
           },
           "default": {
-            "description": "",
+            "description": "Unexpected error",
             "schema": {
               "$ref": "#/definitions/Error"
             }
@@ -97,7 +97,7 @@
             }
           },
           "default": {
-            "description": "",
+            "description": "Unexpected error",
             "schema": {
               "$ref": "#/definitions/Error"
             }
@@ -155,7 +155,7 @@
             }
           },
           "default": {
-            "description": "",
+            "description": "Unexpected error",
             "schema": {
               "$ref": "#/definitions/Error"
             }
@@ -209,7 +209,7 @@
             }
           },
           "default": {
-            "description": "",
+            "description": "Unexpected error",
             "schema": {
               "$ref": "#/definitions/Error"
             }

@@ -129,6 +129,7 @@ service BeerService {
 			responses: {
 				key: "default"
 				value: {
+                    description: "Unexpected error";
                     schema: {
                         json_schema: {
                             ref: ".Error";
@@ -206,6 +207,7 @@ service BeerService {
 			responses: {
 				key: "default"
 				value: {
+                    description: "Unexpected error";
                     schema: {
                         json_schema: {
                             ref: ".Error";
@@ -278,6 +280,7 @@ service BeerService {
 			responses: {
 				key: "default"
 				value: {
+                    description: "Unexpected error";
                     schema: {
                         json_schema: {
                             ref: ".Error";
@@ -339,6 +342,7 @@ service BeerService {
 			responses: {
 				key: "default"
 				value: {
+                    description: "Unexpected error";
                     schema: {
                         json_schema: {
                             ref: ".Error";

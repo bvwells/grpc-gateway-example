@@ -1,0 +1,352 @@
+syntax = "proto3";
+option go_package = "github.com/bvwells/grpc-gateway-example";
+
+import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+import "protoc-gen-swagger/options/annotations.proto";
+
+option (grpc.gateway.protoc_gen_swagger.options.openapiv2_swagger) = {
+	info: {
+		title: "Beer API";
+		version: "1.0";
+        description: "The beer API consists of a set of APIs for accessing a beer catalogue.";
+		contact: {
+			name: "Ben Wells";
+			url: "https://github.com/bvwells/grpc-gateway-example";
+			email: "b.v.wells@gmail.com";
+		};
+	};
+    base_path: "/api"
+	schemes: HTTP;
+	schemes: HTTPS;
+	consumes: "application/json";
+	produces: "application/json";
+};
+
+enum Type {
+        Ale = 0;
+        Bitter = 1;
+        Larger = 2;
+        IndiaPaleAle = 3;
+        Stout = 4;
+        Pilsner = 5;
+        Porter = 6;
+        PaleAle = 7;
+}
+
+message Beer {
+    option (grpc.gateway.protoc_gen_swagger.options.openapiv2_schema) = {
+		json_schema: {
+			title: "Beer"
+			description: "A definition of a beer."
+			required: ["id", "name"]
+		}
+	};
+
+	string id = 1       [(grpc.gateway.protoc_gen_swagger.options.openapiv2_field) = {description: "The unique identifier of the beer."}];
+    string name = 2     [(grpc.gateway.protoc_gen_swagger.options.openapiv2_field) = {description: "The name of the beer."}];
+    Type type = 3       [(grpc.gateway.protoc_gen_swagger.options.openapiv2_field) = {description: "The type of the beer."}];
+    string brewer = 4   [(grpc.gateway.protoc_gen_swagger.options.openapiv2_field) = {description: "The brewer of the beer."}];
+    string country = 5  [(grpc.gateway.protoc_gen_swagger.options.openapiv2_field) = {description: "The country the been originated from."}];
+}
+
+message BeerID {
+	string id = 1   [(grpc.gateway.protoc_gen_swagger.options.openapiv2_field) = {description: "Beer identifier", required: ['id']}];
+}
+
+message Error {
+	int32 code = 1      [(grpc.gateway.protoc_gen_swagger.options.openapiv2_field) = {description: "Response code."}];
+	string message = 2  [(grpc.gateway.protoc_gen_swagger.options.openapiv2_field) = {description: "Response message."}];
+}
+
+// Beer service.
+service BeerService {
+
+	rpc GetBeer(BeerID) returns (Beer) {
+		option (google.api.http) = {
+			get: "/v1/beers/{id}"
+		};
+
+        option (grpc.gateway.protoc_gen_swagger.options.openapiv2_operation) = {
+			summary: "Get beer with given identifier.";
+            operation_id: "getBeer";
+            tags: "beer";
+			responses: {
+				key: "200"
+				value: {
+                    description: "OK";
+                    schema: {
+                        json_schema: {
+                            ref: ".Beer";
+                        }
+                    }
+				}
+			}
+			responses: {
+				key: "400"
+				value: {
+                    description: "Bad request";
+                    schema: {
+                        json_schema: {
+                            ref: ".Error";
+                        }
+                    }
+				}
+			}
+			responses: {
+				key: "401"
+				value: {
+                    description: "Unauthorized";
+                    schema: {
+                        json_schema: {
+                            ref: ".Error";
+                        }
+                    }
+				}
+			}
+			responses: {
+				key: "403"
+				value: {
+                    description: "Forbidden";
+                    schema: {
+                        json_schema: {
+                            ref: ".Error";
+                        }
+                    }
+				}
+			}
+			responses: {
+				key: "404"
+				value: {
+                    description: "Not found";
+                    schema: {
+                        json_schema: {
+                            ref: ".Error";
+                        }
+                    }
+				}
+			}
+			responses: {
+				key: "default"
+				value: {
+                    schema: {
+                        json_schema: {
+                            ref: ".Error";
+                        }
+                    }
+				}
+			}
+		};
+	}
+
+    rpc UpdateBeer(BeerID) returns (Beer) {
+		option (google.api.http) = {
+			patch: "/v1/beers/{id}"
+		};
+
+        option (grpc.gateway.protoc_gen_swagger.options.openapiv2_operation) = {
+			summary: "Update beer with given identifier.";
+            operation_id: "updateBeer"; 
+            tags: "beer";
+			responses: {
+				key: "200"
+				value: {
+                    description: "OK";
+                    schema: {
+                        json_schema: {
+                            ref: ".Beer";
+                        }
+                    }
+				}
+			}
+			responses: {
+				key: "400"
+				value: {
+                    description: "Bad request";
+                    schema: {
+                        json_schema: {
+                            ref: ".Error";
+                        }
+                    }
+				}
+			}
+			responses: {
+				key: "401"
+				value: {
+                    description: "Unauthorized";
+                    schema: {
+                        json_schema: {
+                            ref: ".Error";
+                        }
+                    }
+				}
+			}
+			responses: {
+				key: "403"
+				value: {
+                    description: "Forbidden";
+                    schema: {
+                        json_schema: {
+                            ref: ".Error";
+                        }
+                    }
+				}
+			}
+			responses: {
+				key: "404"
+				value: {
+                    description: "Not found";
+                    schema: {
+                        json_schema: {
+                            ref: ".Error";
+                        }
+                    }
+				}
+			}
+			responses: {
+				key: "default"
+				value: {
+                    schema: {
+                        json_schema: {
+                            ref: ".Error";
+                        }
+                    }
+				}
+			}
+		};
+	}
+
+	// DeleteBeer deletes a beer given its ID.
+	rpc DeleteBeer(BeerID) returns (google.protobuf.Empty) {
+		option (google.api.http) = {
+			delete: "/v1/beers/{id}"
+		};
+        option (grpc.gateway.protoc_gen_swagger.options.openapiv2_operation) = {
+			summary: "Delete beer with given identifier.";
+            operation_id: "deleteBeer";
+            tags: "beer";   
+			responses: {
+				key: "204"
+				value: {
+                    description: "Accepted";
+				}
+            }
+            responses: {
+				key: "400"
+				value: {
+                    description: "Bad request";
+                    schema: {
+                        json_schema: {
+                            ref: ".Error";
+                        }
+                    }
+				}
+			}
+			responses: {
+				key: "401"
+				value: {
+                    description: "Unauthorized";
+                    schema: {
+                        json_schema: {
+                            ref: ".Error";
+                        }
+                    }
+				}
+			}
+			responses: {
+				key: "403"
+				value: {
+                    description: "Forbidden";
+                    schema: {
+                        json_schema: {
+                            ref: ".Error";
+                        }
+                    }
+				}
+			}
+			responses: {
+				key: "404"
+				value: {
+                    description: "Not found";
+                    schema: {
+                        json_schema: {
+                            ref: ".Error";
+                        }
+                    }
+				}
+			}
+			responses: {
+				key: "default"
+				value: {
+                    schema: {
+                        json_schema: {
+                            ref: ".Error";
+                        }
+                    }
+				}
+			}
+		};
+	}
+
+    rpc GetBeers(google.protobuf.Empty) returns (Beer) {
+		option (google.api.http) = {
+			get: "/v1/beers"
+		};
+
+        option (grpc.gateway.protoc_gen_swagger.options.openapiv2_operation) = {
+			summary: "Get all beers.";
+            operation_id: "getBeers";
+            tags: "beers";
+			responses: {
+				key: "200"
+				value: {
+                    description: "OK";
+                    schema: {
+                        json_schema: {
+                            ref: ".Beer";
+                        }
+                    }
+				}
+			}
+			responses: {
+				key: "202"
+				value: {
+                    description: "No content";
+				}
+			}
+			responses: {
+				key: "401"
+				value: {
+                    description: "Unauthorized";
+                    schema: {
+                        json_schema: {
+                            ref: ".Error";
+                        }
+                    }
+				}
+			}
+			responses: {
+				key: "403"
+				value: {
+                    description: "Forbidden";
+                    schema: {
+                        json_schema: {
+                            ref: ".Error";
+                        }
+                    }
+				}
+			}
+			responses: {
+				key: "default"
+				value: {
+                    schema: {
+                        json_schema: {
+                            ref: ".Error";
+                        }
+                    }
+				}
+			}
+		};
+	}
+
+}

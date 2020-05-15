@@ -279,6 +279,7 @@
     "Type": {
       "type": "string",
       "enum": [
+        "Unknown",
         "Ale",
         "Bitter",
         "Larger",
@@ -288,7 +289,7 @@
         "Porter",
         "PaleAle"
       ],
-      "default": "Ale"
+      "default": "Unknown"
     }
   }
 }

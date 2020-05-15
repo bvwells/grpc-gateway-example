@@ -24,14 +24,15 @@ option (grpc.gateway.protoc_gen_swagger.options.openapiv2_swagger) = {
 };
 
 enum Type {
-        Ale = 0;
-        Bitter = 1;
-        Larger = 2;
-        IndiaPaleAle = 3;
-        Stout = 4;
-        Pilsner = 5;
-        Porter = 6;
-        PaleAle = 7;
+        Unknown = 0;
+        Ale = 1;
+        Bitter = 2;
+        Larger = 3;
+        IndiaPaleAle = 4;
+        Stout = 5;
+        Pilsner = 6;
+        Porter = 7;
+        PaleAle = 8;
 }
 
 message Beer {

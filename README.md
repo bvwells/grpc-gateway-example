@@ -1,5 +1,9 @@
 # gRPC Gateway Example
 
+[![Build Status](https://travis-ci.org/bvwells/grpc-gateway-example.svg?branch=master)](https://travis-ci.org/bvwells/grpc-gateway-example)
+[![codecov](https://codecov.io/gh/bvwells/grpc-gateway-example/branch/master/graph/badge.svg)](https://codecov.io/gh/bvwells/grpc-gateway-example)
+[![Go Report Card](https://goreportcard.com/badge/github.com/bvwells/grpc-gateway-example)](https://goreportcard.com/report/github.com/bvwells/grpc-gateway-example)
+
 This repo contains an example usage of grpc gateway (https://github.com/grpc-ecosystem/grpc-gateway).
 
 ## Developing

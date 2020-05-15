@@ -1,0 +1,21 @@
+language: go
+
+os:
+  - linux
+  
+go: 
+  - "1.14.x"
+  - tip
+
+env:
+  - GO111MODULE=on
+
+install:
+  - go get -u github.com/golangci/golangci-lint/cmd/golangci-lint
+  
+script:
+ - ./test.sh
+ - golangci-lint run
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)

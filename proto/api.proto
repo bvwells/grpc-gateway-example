@@ -229,11 +229,11 @@ service BeerService {
             operation_id: "deleteBeer";
             tags: "beer";   
 			responses: {
-				key: "204"
+				key: "200"
 				value: {
-                    description: "Accepted";
+                    description: "OK";
 				}
-            }
+			}
             responses: {
 				key: "400"
 				value: {
@@ -310,12 +310,6 @@ service BeerService {
                             ref: ".Beer";
                         }
                     }
-				}
-			}
-			responses: {
-				key: "202"
-				value: {
-                    description: "No content";
 				}
 			}
 			responses: {

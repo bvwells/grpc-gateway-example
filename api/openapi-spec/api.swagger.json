@@ -33,10 +33,6 @@
               "$ref": "#/definitions/Beer"
             }
           },
-          "202": {
-            "description": "No content",
-            "schema": {}
-          },
           "401": {
             "description": "Unauthorized",
             "schema": {
@@ -121,14 +117,10 @@
         "operationId": "deleteBeer",
         "responses": {
           "200": {
-            "description": "A successful response.",
+            "description": "OK",
             "schema": {
               "properties": {}
             }
-          },
-          "204": {
-            "description": "Accepted",
-            "schema": {}
           },
           "400": {
             "description": "Bad request",

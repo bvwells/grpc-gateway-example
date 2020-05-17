@@ -24,7 +24,10 @@ go mod tidy
 go install \
     github.com/grpc-ecosystem/grpc-gateway/protoc-gen-grpc-gateway \
     github.com/grpc-ecosystem/grpc-gateway/protoc-gen-swagger \
-    github.com/golang/protobuf/protoc-gen-go
+    github.com/golang/protobuf/protoc-gen-go \
+    golang.org/x/tools/cmd/stringer \
+    github.com/vektra/mockery/cmd/mockery \
+    github.com/golangci/golangci-lint/cmd/golangci-lint
 ```
 
 Add $GOBIN to path
@@ -51,9 +54,44 @@ protoc -I. --grpc-gateway_out=logtostderr=true,paths=source_relative:./ api.prot
 protoc -I. --swagger_out=disable_default_errors=true,logtostderr=true:../api/openapi-spec api.proto
 ```
 
+## Run PostgreSQL database
 
+To install PostgreSQL (https://www.postgresql.org/) run:
+
+```
+brew install postgresql
+```
+
+Run the docker image postgres (https://hub.docker.com/_/postgres):
+
+```
+docker run --rm   --name beers -e POSTGRES_PASSWORD=docker -p 5432:5432 -v $HOME/Git/github.com/bvwells/grpc-gateway-example/pkg/infrastructure/postres:/var/lib/postgresql/data postgres
+```
+
+NOTE: The environment variable POSTGRES_PASSWORD should be set to a secret when running in a real environment.
+
+Connect to running instance:
+
+```
+psql -h localhost -U postgres -d postgres
+```
+
+To create the beers database run:
+```
+CREATE DATABASE beers;
+```
+
+To create the beers table run:
+```
+CREATE TABLE beers (
+  id VARCHAR(20) PRIMARY KEY,
+  name TEXT,
+  type INT,
+  brewer TEXT,
+  country TEXT
+);
+```
 ## TODOs
 
 - What to do with request headers?
 - Patch request.
-- How to remove 200 response from delete resource request.

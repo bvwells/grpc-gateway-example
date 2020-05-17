@@ -55,6 +55,49 @@
         "tags": [
           "beers"
         ]
+      },
+      "post": {
+        "summary": "Create a beer.",
+        "operationId": "createBeer",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Beer"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CreateBeerParams"
+            }
+          }
+        ],
+        "tags": [
+          "beer"
+        ]
       }
     },
     "/v1/beers/{id}": {
@@ -251,6 +294,32 @@
       "title": "Beer",
       "required": [
         "id",
+        "name"
+      ]
+    },
+    "CreateBeerParams": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the beer."
+        },
+        "type": {
+          "$ref": "#/definitions/Type",
+          "description": "The type of the beer."
+        },
+        "brewer": {
+          "type": "string",
+          "description": "The brewer of the beer."
+        },
+        "country": {
+          "type": "string",
+          "description": "The country the been originated from."
+        }
+      },
+      "description": "Parameters for creating a beer.",
+      "title": "CreateBeerParams",
+      "required": [
         "name"
       ]
     },

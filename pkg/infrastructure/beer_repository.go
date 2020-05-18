@@ -38,7 +38,7 @@ type postgresBeer struct {
 	Country string
 }
 
-// GenerateID generates a unique identifer.
+// GenerateID generates a unique identifier.
 type GenerateID func() string
 
 // NewPostgresBeerRepository creates a new postgres beer repository.

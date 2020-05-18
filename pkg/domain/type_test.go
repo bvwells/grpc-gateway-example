@@ -9,7 +9,6 @@ import (
 )
 
 func TestTypeString(t *testing.T) {
-
 	tests := []struct {
 		ty  domain.Type
 		val string

@@ -15,7 +15,6 @@ import (
 
 	"github.com/golang/protobuf/descriptor"
 	"github.com/golang/protobuf/proto"
-	"github.com/golang/protobuf/ptypes/empty"
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
 	"github.com/grpc-ecosystem/grpc-gateway/utilities"
 	"google.golang.org/grpc"
@@ -32,8 +31,8 @@ var _ = runtime.String
 var _ = utilities.NewDoubleArray
 var _ = descriptor.ForMessage
 
-func request_BeerService_CreateBeers_0(ctx context.Context, marshaler runtime.Marshaler, client BeerServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq CreateBeerParams
+func request_BeerService_CreateBeer_0(ctx context.Context, marshaler runtime.Marshaler, client BeerServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var protoReq CreateBeerRequest
 	var metadata runtime.ServerMetadata
 
 	newReader, berr := utilities.IOReaderFactory(req.Body)
@@ -44,13 +43,13 @@ func request_BeerService_CreateBeers_0(ctx context.Context, marshaler runtime.Ma
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
-	msg, err := client.CreateBeers(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	msg, err := client.CreateBeer(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 
 }
 
-func local_request_BeerService_CreateBeers_0(ctx context.Context, marshaler runtime.Marshaler, server BeerServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq CreateBeerParams
+func local_request_BeerService_CreateBeer_0(ctx context.Context, marshaler runtime.Marshaler, server BeerServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var protoReq CreateBeerRequest
 	var metadata runtime.ServerMetadata
 
 	newReader, berr := utilities.IOReaderFactory(req.Body)
@@ -61,13 +60,13 @@ func local_request_BeerService_CreateBeers_0(ctx context.Context, marshaler runt
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
-	msg, err := server.CreateBeers(ctx, &protoReq)
+	msg, err := server.CreateBeer(ctx, &protoReq)
 	return msg, metadata, err
 
 }
 
 func request_BeerService_GetBeer_0(ctx context.Context, marshaler runtime.Marshaler, client BeerServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq BeerID
+	var protoReq GetBeerRequest
 	var metadata runtime.ServerMetadata
 
 	var (
@@ -94,7 +93,7 @@ func request_BeerService_GetBeer_0(ctx context.Context, marshaler runtime.Marsha
 }
 
 func local_request_BeerService_GetBeer_0(ctx context.Context, marshaler runtime.Marshaler, server BeerServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq BeerID
+	var protoReq GetBeerRequest
 	var metadata runtime.ServerMetadata
 
 	var (
@@ -121,7 +120,7 @@ func local_request_BeerService_GetBeer_0(ctx context.Context, marshaler runtime.
 }
 
 func request_BeerService_UpdateBeer_0(ctx context.Context, marshaler runtime.Marshaler, client BeerServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq BeerID
+	var protoReq UpdateBeerRequest
 	var metadata runtime.ServerMetadata
 
 	var (
@@ -148,7 +147,7 @@ func request_BeerService_UpdateBeer_0(ctx context.Context, marshaler runtime.Mar
 }
 
 func local_request_BeerService_UpdateBeer_0(ctx context.Context, marshaler runtime.Marshaler, server BeerServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq BeerID
+	var protoReq UpdateBeerRequest
 	var metadata runtime.ServerMetadata
 
 	var (
@@ -175,7 +174,7 @@ func local_request_BeerService_UpdateBeer_0(ctx context.Context, marshaler runti
 }
 
 func request_BeerService_DeleteBeer_0(ctx context.Context, marshaler runtime.Marshaler, client BeerServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq BeerID
+	var protoReq DeleteBeerRequest
 	var metadata runtime.ServerMetadata
 
 	var (
@@ -202,7 +201,7 @@ func request_BeerService_DeleteBeer_0(ctx context.Context, marshaler runtime.Mar
 }
 
 func local_request_BeerService_DeleteBeer_0(ctx context.Context, marshaler runtime.Marshaler, server BeerServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq BeerID
+	var protoReq DeleteBeerRequest
 	var metadata runtime.ServerMetadata
 
 	var (
@@ -229,7 +228,7 @@ func local_request_BeerService_DeleteBeer_0(ctx context.Context, marshaler runti
 }
 
 func request_BeerService_GetBeers_0(ctx context.Context, marshaler runtime.Marshaler, client BeerServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq empty.Empty
+	var protoReq GetBeersRequest
 	var metadata runtime.ServerMetadata
 
 	msg, err := client.GetBeers(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
@@ -238,7 +237,7 @@ func request_BeerService_GetBeers_0(ctx context.Context, marshaler runtime.Marsh
 }
 
 func local_request_BeerService_GetBeers_0(ctx context.Context, marshaler runtime.Marshaler, server BeerServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq empty.Empty
+	var protoReq GetBeersRequest
 	var metadata runtime.ServerMetadata
 
 	msg, err := server.GetBeers(ctx, &protoReq)
@@ -251,7 +250,7 @@ func local_request_BeerService_GetBeers_0(ctx context.Context, marshaler runtime
 // StreamingRPC :currently unsupported pending https://github.com/grpc/grpc-go/issues/906.
 func RegisterBeerServiceHandlerServer(ctx context.Context, mux *runtime.ServeMux, server BeerServiceServer) error {
 
-	mux.Handle("POST", pattern_BeerService_CreateBeers_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("POST", pattern_BeerService_CreateBeer_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
@@ -260,14 +259,14 @@ func RegisterBeerServiceHandlerServer(ctx context.Context, mux *runtime.ServeMux
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := local_request_BeerService_CreateBeers_0(rctx, inboundMarshaler, server, req, pathParams)
+		resp, md, err := local_request_BeerService_CreateBeer_0(rctx, inboundMarshaler, server, req, pathParams)
 		ctx = runtime.NewServerMetadataContext(ctx, md)
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
 
-		forward_BeerService_CreateBeers_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_BeerService_CreateBeer_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
@@ -392,7 +391,7 @@ func RegisterBeerServiceHandler(ctx context.Context, mux *runtime.ServeMux, conn
 // "BeerServiceClient" to call the correct interceptors.
 func RegisterBeerServiceHandlerClient(ctx context.Context, mux *runtime.ServeMux, client BeerServiceClient) error {
 
-	mux.Handle("POST", pattern_BeerService_CreateBeers_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("POST", pattern_BeerService_CreateBeer_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
@@ -401,14 +400,14 @@ func RegisterBeerServiceHandlerClient(ctx context.Context, mux *runtime.ServeMux
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_BeerService_CreateBeers_0(rctx, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_BeerService_CreateBeer_0(rctx, inboundMarshaler, client, req, pathParams)
 		ctx = runtime.NewServerMetadataContext(ctx, md)
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
 
-		forward_BeerService_CreateBeers_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_BeerService_CreateBeer_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
@@ -496,7 +495,7 @@ func RegisterBeerServiceHandlerClient(ctx context.Context, mux *runtime.ServeMux
 }
 
 var (
-	pattern_BeerService_CreateBeers_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "beers"}, "", runtime.AssumeColonVerbOpt(true)))
+	pattern_BeerService_CreateBeer_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "beers"}, "", runtime.AssumeColonVerbOpt(true)))
 
 	pattern_BeerService_GetBeer_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"v1", "beers", "id"}, "", runtime.AssumeColonVerbOpt(true)))
 
@@ -508,7 +507,7 @@ var (
 )
 
 var (
-	forward_BeerService_CreateBeers_0 = runtime.ForwardResponseMessage
+	forward_BeerService_CreateBeer_0 = runtime.ForwardResponseMessage
 
 	forward_BeerService_GetBeer_0 = runtime.ForwardResponseMessage
 

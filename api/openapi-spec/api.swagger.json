@@ -30,7 +30,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/Beer"
+              "$ref": "#/definitions/GetBeersResponse"
             }
           },
           "401": {
@@ -63,7 +63,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/Beer"
+              "$ref": "#/definitions/CreateBeerResponse"
             }
           },
           "401": {
@@ -91,7 +91,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/CreateBeerParams"
+              "$ref": "#/definitions/CreateBeerRequest"
             }
           }
         ],
@@ -108,7 +108,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/Beer"
+              "$ref": "#/definitions/GetBeerResponse"
             }
           },
           "400": {
@@ -162,7 +162,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "properties": {}
+              "$ref": "#/definitions/DeleteBeerResponse"
             }
           },
           "400": {
@@ -216,7 +216,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/Beer"
+              "$ref": "#/definitions/UpdateBeerResponse"
             }
           },
           "400": {
@@ -297,7 +297,7 @@
         "name"
       ]
     },
-    "CreateBeerParams": {
+    "CreateBeerRequest": {
       "type": "object",
       "properties": {
         "name": {
@@ -317,11 +317,30 @@
           "description": "The country the been originated from."
         }
       },
-      "description": "Parameters for creating a beer.",
-      "title": "CreateBeerParams",
+      "description": "Request for creating a beer.",
+      "title": "CreateBeerRequest",
       "required": [
         "name"
       ]
+    },
+    "CreateBeerResponse": {
+      "type": "object",
+      "properties": {
+        "beer": {
+          "$ref": "#/definitions/Beer",
+          "description": "The beer created."
+        }
+      },
+      "description": "Response from creating a beer.",
+      "title": "CreateBeerResponse",
+      "required": [
+        "beer"
+      ]
+    },
+    "DeleteBeerResponse": {
+      "type": "object",
+      "description": "Response from deleting a beer.",
+      "title": "UpdateBeerResponse"
     },
     "Error": {
       "type": "object",
@@ -337,6 +356,37 @@
         }
       }
     },
+    "GetBeerResponse": {
+      "type": "object",
+      "properties": {
+        "beer": {
+          "$ref": "#/definitions/Beer",
+          "description": "The beer."
+        }
+      },
+      "description": "Response from getting a beer.",
+      "title": "GetBeerResponse",
+      "required": [
+        "beer"
+      ]
+    },
+    "GetBeersResponse": {
+      "type": "object",
+      "properties": {
+        "beers": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Beer"
+          },
+          "description": "The beers."
+        }
+      },
+      "description": "Response from gettings beer.",
+      "title": "GetBeersResponse",
+      "required": [
+        "beers"
+      ]
+    },
     "Type": {
       "type": "string",
       "enum": [
@@ -351,6 +401,20 @@
         "PaleAle"
       ],
       "default": "Unknown"
+    },
+    "UpdateBeerResponse": {
+      "type": "object",
+      "properties": {
+        "beer": {
+          "$ref": "#/definitions/Beer",
+          "description": "The beer updated."
+        }
+      },
+      "description": "Response from updating a beer.",
+      "title": "UpdateBeerResponse",
+      "required": [
+        "beer"
+      ]
     }
   }
 }

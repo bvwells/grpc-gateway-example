@@ -5,8 +5,6 @@ import (
 
 	"github.com/bvwells/grpc-gateway-example/pkg/domain"
 	"github.com/bvwells/grpc-gateway-example/proto/beers"
-
-	"github.com/golang/protobuf/ptypes/empty"
 )
 
 // BeerInteractor defines a set of APIs for interacting with beers.
@@ -34,7 +32,7 @@ type BeerService struct {
 }
 
 // CreateBeer create a beer with specified beer parameters.
-func (svc *BeerService) CreateBeer(ctx context.Context, params *beers.CreateBeerParams) (*beers.Beer, error) {
+func (svc *BeerService) CreateBeer(ctx context.Context, params *beers.CreateBeerRequest) (*beers.CreateBeerResponse, error) {
 	item, err := svc.interactor.CreateBeer(ctx, &domain.CreateBeerParams{
 		Name:    params.Name,
 		Type:    fromProtoType(params.Type),
@@ -44,45 +42,53 @@ func (svc *BeerService) CreateBeer(ctx context.Context, params *beers.CreateBeer
 	if err != nil {
 		return nil, err
 	}
-	return toProtoBeer(item), nil
+	return &beers.CreateBeerResponse{
+		Beer: toProtoBeer(item),
+	}, nil
 }
 
 // GetBeer gets the beer with specified beer identifier.
-func (svc *BeerService) GetBeer(ctx context.Context, params *beers.BeerID) (*beers.Beer, error) {
+func (svc *BeerService) GetBeer(ctx context.Context, params *beers.GetBeerRequest) (*beers.GetBeerResponse, error) {
 	item, err := svc.interactor.GetBeer(ctx, &domain.GetBeerParams{ID: params.Id})
 	if err != nil {
 		return nil, err
 	}
-	return toProtoBeer(item), nil
+	return &beers.GetBeerResponse{
+		Beer: toProtoBeer(item),
+	}, nil
 }
 
 // UpdateBeer updates the beer with specified beer identifier.
-func (svc *BeerService) UpdateBeer(ctx context.Context, params *beers.BeerID) (*beers.Beer, error) {
+func (svc *BeerService) UpdateBeer(ctx context.Context, params *beers.UpdateBeerRequest) (*beers.UpdateBeerResponse, error) {
 	item, err := svc.interactor.UpdateBeer(ctx, &domain.UpdateBeerParams{ID: params.Id})
 	if err != nil {
 		return nil, err
 	}
-	return toProtoBeer(item), nil
+	return &beers.UpdateBeerResponse{
+		Beer: toProtoBeer(item),
+	}, nil
 }
 
 // DeleteBeer deletes the beer with specified beer identifier.
-func (svc *BeerService) DeleteBeer(ctx context.Context, params *beers.BeerID) (*empty.Empty, error) {
+func (svc *BeerService) DeleteBeer(ctx context.Context, params *beers.DeleteBeerRequest) (*beers.DeleteBeerResponse, error) {
 	err := svc.interactor.DeleteBeer(ctx, &domain.DeleteBeerParams{ID: params.Id})
 	if err != nil {
 		return nil, err
 	}
-	return &empty.Empty{}, nil
+	return &beers.DeleteBeerResponse{}, nil
 }
 
 // GetBeers gets all beers.
-func (svc *BeerService) GetBeers(ctx context.Context, _ *empty.Empty) ([]*beers.Beer, error) {
+func (svc *BeerService) GetBeers(ctx context.Context, _ *beers.GetBeersRequest) (*beers.GetBeersResponse, error) {
 	items, err := svc.interactor.GetBeers(ctx, &domain.GetBeersParams{})
 	if err != nil {
 		return nil, err
 	}
-	b := make([]*beers.Beer, 0, len(items))
+	b := &beers.GetBeersResponse{
+		Beers: make([]*beers.Beer, 0, len(items)),
+	}
 	for _, item := range items {
-		b = append(b, toProtoBeer(item))
+		b.Beers = append(b.Beers, toProtoBeer(item))
 	}
 	return b, nil
 }

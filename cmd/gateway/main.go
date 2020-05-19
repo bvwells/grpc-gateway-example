@@ -11,6 +11,7 @@ import (
 	"github.com/bvwells/grpc-gateway-example/proto/beers"
 	gw "github.com/bvwells/grpc-gateway-example/proto/beers"
 
+	"github.com/google/uuid"
 	grpc_middleware "github.com/grpc-ecosystem/go-grpc-middleware"
 	grpc_logrus "github.com/grpc-ecosystem/go-grpc-middleware/logging/logrus"
 	grpc_recovery "github.com/grpc-ecosystem/go-grpc-middleware/recovery"
@@ -42,7 +43,9 @@ func newBeerService() (*adapters.BeerService, error) {
 		DBName:   "beers",
 	}
 
-	var generateID infrastructure.GenerateID
+	generateID := func() string {
+		return uuid.New().String()
+	}
 	repo, err := infrastructure.NewPostgresBeerRepository(settings, generateID)
 	if err != nil {
 		return nil, err

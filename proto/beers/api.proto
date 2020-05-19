@@ -15,7 +15,6 @@ option (grpc.gateway.protoc_gen_swagger.options.openapiv2_swagger) = {
 			email: "b.v.wells@gmail.com";
 		};
 	};
-    base_path: "/api"
 	schemes: HTTP;
 	schemes: HTTPS;
 	consumes: "application/json";
@@ -178,7 +177,7 @@ service BeerService {
 
     rpc CreateBeer(CreateBeerRequest) returns (CreateBeerResponse) {
 		option (google.api.http) = {
-			post: "/v1/beers"
+			post: "/api/v1/beers"
 			body: "*"	
 		};
 
@@ -230,7 +229,7 @@ service BeerService {
 
 	rpc GetBeer(GetBeerRequest) returns (GetBeerResponse) {
 		option (google.api.http) = {
-			get: "/v1/beers/{id}"
+			get: "/api/v1/beers/{id}"
 		};
 
         option (grpc.gateway.protoc_gen_swagger.options.openapiv2_operation) = {
@@ -303,7 +302,7 @@ service BeerService {
 
     rpc UpdateBeer(UpdateBeerRequest) returns (UpdateBeerResponse) {
 		option (google.api.http) = {
-			patch: "/v1/beers/{id}"
+			patch: "/api/v1/beers/{id}"
 		};
 
         option (grpc.gateway.protoc_gen_swagger.options.openapiv2_operation) = {
@@ -377,7 +376,7 @@ service BeerService {
 	// DeleteBeer deletes a beer given its ID.
 	rpc DeleteBeer(DeleteBeerRequest) returns (DeleteBeerResponse) {
 		option (google.api.http) = {
-			delete: "/v1/beers/{id}"
+			delete: "/api/v1/beers/{id}"
 		};
         option (grpc.gateway.protoc_gen_swagger.options.openapiv2_operation) = {
 			summary: "Delete beer with given identifier.";
@@ -449,7 +448,7 @@ service BeerService {
 
     rpc GetBeers(GetBeersRequest) returns (GetBeersResponse) {
 		option (google.api.http) = {
-			get: "/v1/beers"
+			get: "/api/v1/beers"
 		};
 
         option (grpc.gateway.protoc_gen_swagger.options.openapiv2_operation) = {

@@ -10,7 +10,6 @@
       "email": "b.v.wells@gmail.com"
     }
   },
-  "basePath": "/api",
   "schemes": [
     "http",
     "https"
@@ -22,7 +21,7 @@
     "application/json"
   ],
   "paths": {
-    "/v1/beers": {
+    "/api/v1/beers": {
       "get": {
         "summary": "Get all beers.",
         "operationId": "getBeers",
@@ -100,7 +99,7 @@
         ]
       }
     },
-    "/v1/beers/{id}": {
+    "/api/v1/beers/{id}": {
       "get": {
         "summary": "Get beer with given identifier.",
         "operationId": "getBeer",

@@ -78,7 +78,7 @@ func (repo *PostgresBeerRepository) Close() error {
 func (repo *PostgresBeerRepository) CreateBeer(ctx context.Context, params *domain.CreateBeerParams) (*domain.Beer, error) {
 	id := repo.generateID()
 	sqlStatement := `
-	INSERT INTO beers (id, name, type, brewer, country)
+	INSERT INTO BEERS (id, name, type, brewer, country)
 	VALUES ($1, $2, $3, $4, $5)
 	RETURNING id`
 	err := repo.db.QueryRow(sqlStatement, id, params.Name, params.Type, params.Brewer, params.Country).Scan()
@@ -91,7 +91,7 @@ func (repo *PostgresBeerRepository) CreateBeer(ctx context.Context, params *doma
 // GetBeer gets a beer from the postgres database.
 func (repo *PostgresBeerRepository) GetBeer(ctx context.Context, params *domain.GetBeerParams) (*domain.Beer, error) {
 	var beer postgresBeer
-	row := repo.db.QueryRow("SELECT * FROM beers WHERE id=$1;", params.ID)
+	row := repo.db.QueryRow("SELECT * FROM BEERS WHERE id=$1;", params.ID)
 	err := row.Scan(&beer.ID, &beer.Name, &beer.Type, &beer.Brewer, &beer.Country)
 	switch err {
 	case sql.ErrNoRows:
@@ -106,7 +106,7 @@ func (repo *PostgresBeerRepository) GetBeer(ctx context.Context, params *domain.
 // UpdateBeer updates a beer in the postgres database.
 func (repo *PostgresBeerRepository) UpdateBeer(ctx context.Context, params *domain.UpdateBeerParams) (*domain.Beer, error) {
 	if params.Brewer != nil {
-		sqlStatement := `UPDATE beers
+		sqlStatement := `UPDATE BEERS
 						 SET brewer = $2
 						 WHERE id = $1;`
 		_, err := repo.db.Exec(sqlStatement, params.ID, params.Brewer)
@@ -115,7 +115,7 @@ func (repo *PostgresBeerRepository) UpdateBeer(ctx context.Context, params *doma
 		}
 	}
 	if params.Country != nil {
-		sqlStatement := `UPDATE beers
+		sqlStatement := `UPDATE BEERS
 						 SET country = $2
 						 WHERE id = $1;`
 		_, err := repo.db.Exec(sqlStatement, params.ID, params.Country)
@@ -129,7 +129,7 @@ func (repo *PostgresBeerRepository) UpdateBeer(ctx context.Context, params *doma
 // DeleteBeer deletes a beer from the postgres database.
 func (repo *PostgresBeerRepository) DeleteBeer(ctx context.Context, params *domain.DeleteBeerParams) error {
 	sqlStatement := `
-	DELETE FROM beers
+	DELETE FROM BEERS
 	WHERE id = $1;`
 	_, err := repo.db.Exec(sqlStatement, params.ID)
 	if err != nil {
@@ -141,7 +141,7 @@ func (repo *PostgresBeerRepository) DeleteBeer(ctx context.Context, params *doma
 // GetBeers gets all beers from the postgres database.
 // TODO - return cursor to new batch of beers.
 func (repo *PostgresBeerRepository) GetBeers(ctx context.Context, params *domain.GetBeersParams) ([]*domain.Beer, error) {
-	rows, err := repo.db.Query("SELECT * FROM beers LIMIT $1", numberRows)
+	rows, err := repo.db.Query("SELECT * FROM BEERS LIMIT $1", numberRows)
 	if err != nil {
 		return nil, err
 	}

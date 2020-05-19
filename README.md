@@ -78,19 +78,53 @@ psql -h localhost -U postgres -d postgres
 
 To create the beers database run:
 ```
-CREATE DATABASE beers;
+CREATE DATABASE BEERS;
+```
+
+Connect to the database:
+```
+\c beers
 ```
 
 To create the beers table run:
 ```
-CREATE TABLE beers (
-  id VARCHAR(20) PRIMARY KEY,
+CREATE TABLE BEERS (
+  id VARCHAR(36) PRIMARY KEY,
   name TEXT,
   type INT,
   brewer TEXT,
   country TEXT
 );
 ```
+
+Some useful psql commands:
+
+List databases:
+```
+\l 
+```
+
+Connect to a database:
+```
+\c table_name username
+
+```
+List tables:
+```
+\dt 
+```
+
+Describe a table:
+```
+\d table_name
+```
+
+Help:
+```
+\? table_name
+```
+
+
 ## TODOs
 
 - What to do with request headers?

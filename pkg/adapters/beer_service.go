@@ -64,7 +64,6 @@ func (svc *BeerService) GetBeer(ctx context.Context, params *beers.GetBeerReques
 
 // UpdateBeer updates the beer with specified beer identifier.
 func (svc *BeerService) UpdateBeer(ctx context.Context, params *beers.UpdateBeerRequest) (*beers.UpdateBeerResponse, error) {
-
 	if params.UpdateMask == nil {
 		return nil, status.Error(codes.InvalidArgument, "no fields specified")
 	}

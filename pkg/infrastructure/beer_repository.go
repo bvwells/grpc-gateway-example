@@ -81,7 +81,7 @@ func (repo *PostgresBeerRepository) CreateBeer(ctx context.Context, params *doma
 	INSERT INTO BEERS (id, name, type, brewer, country)
 	VALUES ($1, $2, $3, $4, $5)
 	RETURNING id`
-	err := repo.db.QueryRow(sqlStatement, id, params.Name, params.Type, params.Brewer, params.Country).Scan()
+	err := repo.db.QueryRow(sqlStatement, id, params.Name, params.Type, params.Brewer, params.Country).Scan(&id)
 	if err != nil {
 		return nil, err
 	}

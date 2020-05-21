@@ -1206,11 +1206,15 @@ const _ = grpc.SupportPackageIsVersion6
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type BeerServiceClient interface {
+	// CreateBeer creates a beer.
 	CreateBeer(ctx context.Context, in *CreateBeerRequest, opts ...grpc.CallOption) (*CreateBeerResponse, error)
+	// GetBeer gets a beer given its ID.
 	GetBeer(ctx context.Context, in *GetBeerRequest, opts ...grpc.CallOption) (*GetBeerResponse, error)
+	// UpdateBeer updates a beer given its ID.
 	UpdateBeer(ctx context.Context, in *UpdateBeerRequest, opts ...grpc.CallOption) (*UpdateBeerResponse, error)
 	// DeleteBeer deletes a beer given its ID.
 	DeleteBeer(ctx context.Context, in *DeleteBeerRequest, opts ...grpc.CallOption) (*DeleteBeerResponse, error)
+	// GetBeers gets beers.
 	GetBeers(ctx context.Context, in *GetBeersRequest, opts ...grpc.CallOption) (*GetBeersResponse, error)
 }
 
@@ -1269,11 +1273,15 @@ func (c *beerServiceClient) GetBeers(ctx context.Context, in *GetBeersRequest, o
 
 // BeerServiceServer is the server API for BeerService service.
 type BeerServiceServer interface {
+	// CreateBeer creates a beer.
 	CreateBeer(context.Context, *CreateBeerRequest) (*CreateBeerResponse, error)
+	// GetBeer gets a beer given its ID.
 	GetBeer(context.Context, *GetBeerRequest) (*GetBeerResponse, error)
+	// UpdateBeer updates a beer given its ID.
 	UpdateBeer(context.Context, *UpdateBeerRequest) (*UpdateBeerResponse, error)
 	// DeleteBeer deletes a beer given its ID.
 	DeleteBeer(context.Context, *DeleteBeerRequest) (*DeleteBeerResponse, error)
+	// GetBeers gets beers.
 	GetBeers(context.Context, *GetBeersRequest) (*GetBeersResponse, error)
 }
 

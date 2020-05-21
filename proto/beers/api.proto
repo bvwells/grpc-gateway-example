@@ -180,6 +180,7 @@ message Error {
 // Beer service.
 service BeerService {
 
+	// CreateBeer creates a beer.
     rpc CreateBeer(CreateBeerRequest) returns (CreateBeerResponse) {
 		option (google.api.http) = {
 			post: "/api/v1/beers"
@@ -232,6 +233,7 @@ service BeerService {
 		};
 	}
 
+	// GetBeer gets a beer given its ID.
 	rpc GetBeer(GetBeerRequest) returns (GetBeerResponse) {
 		option (google.api.http) = {
 			get: "/api/v1/beers/{id}"
@@ -305,6 +307,7 @@ service BeerService {
 		};
 	}
 
+	// UpdateBeer updates a beer given its ID.
     rpc UpdateBeer(UpdateBeerRequest) returns (UpdateBeerResponse) {
 		option (google.api.http) = {
 			patch: "/api/v1/beers/{beer.id}"
@@ -452,6 +455,7 @@ service BeerService {
 		};
 	}
 
+	// GetBeers gets beers.
     rpc GetBeers(GetBeersRequest) returns (GetBeersResponse) {
 		option (google.api.http) = {
 			get: "/api/v1/beers"

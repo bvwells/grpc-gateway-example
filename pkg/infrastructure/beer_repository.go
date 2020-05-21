@@ -81,7 +81,7 @@ func (repo *PostgresBeerRepository) CreateBeer(ctx context.Context, params *doma
 	INSERT INTO BEERS (id, name, type, brewer, country)
 	VALUES ($1, $2, $3, $4, $5)
 	RETURNING id`
-	err := repo.db.QueryRow(sqlStatement, id, params.Name, params.Type, params.Brewer, params.Country).Scan()
+	err := repo.db.QueryRow(sqlStatement, id, params.Name, params.Type, params.Brewer, params.Country).Scan(&id)
 	if err != nil {
 		return nil, err
 	}
@@ -105,6 +105,15 @@ func (repo *PostgresBeerRepository) GetBeer(ctx context.Context, params *domain.
 
 // UpdateBeer updates a beer in the postgres database.
 func (repo *PostgresBeerRepository) UpdateBeer(ctx context.Context, params *domain.UpdateBeerParams) (*domain.Beer, error) {
+	if params.Name != nil {
+		sqlStatement := `UPDATE BEERS
+						 SET name = $2
+						 WHERE id = $1;`
+		_, err := repo.db.Exec(sqlStatement, params.ID, params.Name)
+		if err != nil {
+			return nil, err
+		}
+	}
 	if params.Brewer != nil {
 		sqlStatement := `UPDATE BEERS
 						 SET brewer = $2

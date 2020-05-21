@@ -2,6 +2,7 @@ syntax = "proto3";
 option go_package = "github.com/bvwells/grpc-gateway-example/proto/beers";
 
 import "google/api/annotations.proto";
+import "google/protobuf/field_mask.proto";
 import "protoc-gen-swagger/options/annotations.proto";
 
 option (grpc.gateway.protoc_gen_swagger.options.openapiv2_swagger) = {
@@ -106,11 +107,15 @@ message UpdateBeerRequest {
 		json_schema: {
 			title: "UpdateBeerRequest"
 			description: "Request for updating a beer."
-			required: ["id"]
+			required: ["beer.id"]
 		}
 	};
 
-	string id = 1   [(grpc.gateway.protoc_gen_swagger.options.openapiv2_field) = {description: "Beer identifier", required: ['id']}];
+    Beer beer = 1;
+
+	// Indicates which fields in the provided beer to update. Must be
+    // specified and non-empty.
+	google.protobuf.FieldMask update_mask = 2;
 }
 
 message UpdateBeerResponse {
@@ -302,7 +307,8 @@ service BeerService {
 
     rpc UpdateBeer(UpdateBeerRequest) returns (UpdateBeerResponse) {
 		option (google.api.http) = {
-			patch: "/api/v1/beers/{id}"
+			patch: "/api/v1/beers/{beer.id}"
+			body: "beer"
 		};
 
         option (grpc.gateway.protoc_gen_swagger.options.openapiv2_operation) = {

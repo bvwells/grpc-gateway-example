@@ -2,9 +2,13 @@ package adapters
 
 import (
 	"context"
+	"strings"
 
 	"github.com/bvwells/grpc-gateway-example/pkg/domain"
 	"github.com/bvwells/grpc-gateway-example/proto/beers"
+
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 )
 
 // BeerInteractor defines a set of APIs for interacting with beers.
@@ -60,7 +64,28 @@ func (svc *BeerService) GetBeer(ctx context.Context, params *beers.GetBeerReques
 
 // UpdateBeer updates the beer with specified beer identifier.
 func (svc *BeerService) UpdateBeer(ctx context.Context, params *beers.UpdateBeerRequest) (*beers.UpdateBeerResponse, error) {
-	item, err := svc.interactor.UpdateBeer(ctx, &domain.UpdateBeerParams{ID: params.Id})
+
+	if params.UpdateMask == nil {
+		return nil, status.Error(codes.InvalidArgument, "no fields specified")
+	}
+
+	updateParams := &domain.UpdateBeerParams{
+		ID: params.Beer.Id,
+	}
+	for _, path := range params.UpdateMask.Paths {
+		switch field := strings.ToLower(path); field {
+		case "name":
+			updateParams.Name = &params.Beer.Name
+		case "brewer":
+			updateParams.Brewer = &params.Beer.Brewer
+		case "country":
+			updateParams.Country = &params.Beer.Country
+		default:
+			return nil, status.Errorf(codes.InvalidArgument, "invalid beer field: %s", field)
+		}
+	}
+
+	item, err := svc.interactor.UpdateBeer(ctx, updateParams)
 	if err != nil {
 		return nil, err
 	}

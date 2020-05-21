@@ -11,6 +11,9 @@ import (
 	"github.com/bvwells/grpc-gateway-example/proto/beers"
 
 	"github.com/stretchr/testify/assert"
+	"google.golang.org/genproto/protobuf/field_mask"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 )
 
 //go:generate mockery -name=BeerInteractor -case=underscore
@@ -117,14 +120,48 @@ func TestGetBeer_WhenGetBeerReturnsBeer_ReturnsBeer(t *testing.T) {
 	assert.Equal(t, expected, actual)
 }
 
+func TestUpdateBeer_WhenFieldMaskNotSpecified_ReturnsError(t *testing.T) {
+	t.Parallel()
+	interactor := &mocks.BeerInteractor{}
+	service := adapters.NewBeerService(interactor)
+	ctx := context.Background()
+	params := &beers.UpdateBeerRequest{
+		Beer: &beers.Beer{Id: "id", Name: "name"},
+	}
+	_, err := service.UpdateBeer(ctx, params)
+
+	st, ok := status.FromError(err)
+	assert.True(t, ok)
+	assert.Equal(t, codes.InvalidArgument, st.Code())
+}
+
+func TestUpdateBeer_WhenFieldMaskContainsInvalidField_ReturnsError(t *testing.T) {
+	t.Parallel()
+	interactor := &mocks.BeerInteractor{}
+	service := adapters.NewBeerService(interactor)
+	ctx := context.Background()
+	params := &beers.UpdateBeerRequest{
+		Beer:       &beers.Beer{Id: "id", Name: "name"},
+		UpdateMask: &field_mask.FieldMask{Paths: []string{"invalid_field"}},
+	}
+	_, err := service.UpdateBeer(ctx, params)
+
+	st, ok := status.FromError(err)
+	assert.True(t, ok)
+	assert.Equal(t, codes.InvalidArgument, st.Code())
+}
+
 func TestUpdateBeer_WhenUpdateBeerReturnsError_ReturnsError(t *testing.T) {
 	t.Parallel()
 	interactor := &mocks.BeerInteractor{}
 	service := adapters.NewBeerService(interactor)
 	ctx := context.Background()
-	params := &beers.UpdateBeerRequest{Id: "id"}
+	params := &beers.UpdateBeerRequest{
+		Beer:       &beers.Beer{Id: "id", Name: "name"},
+		UpdateMask: &field_mask.FieldMask{Paths: []string{"NaMe"}},
+	}
 	expected := errors.New("something went wrong")
-	interactor.On("UpdateBeer", ctx, &domain.UpdateBeerParams{ID: params.Id}).Return(nil, expected)
+	interactor.On("UpdateBeer", ctx, &domain.UpdateBeerParams{ID: params.Beer.Id, Name: &params.Beer.Name}).Return(nil, expected)
 	_, actual := service.UpdateBeer(ctx, params)
 	assert.Equal(t, expected, actual)
 }
@@ -134,7 +171,10 @@ func TestUpdateBeer_WhenUpdateBeerReturnsBeer_ReturnsBeer(t *testing.T) {
 	interactor := &mocks.BeerInteractor{}
 	service := adapters.NewBeerService(interactor)
 	ctx := context.Background()
-	params := &beers.UpdateBeerRequest{Id: "id"}
+	params := &beers.UpdateBeerRequest{
+		Beer:       &beers.Beer{Id: "id", Name: "name", Brewer: "brewer", Country: "Country"},
+		UpdateMask: &field_mask.FieldMask{Paths: []string{"NaMe", "Country", "breweR"}},
+	}
 	expected := &beers.UpdateBeerResponse{
 		Beer: &beers.Beer{
 			Id:      "id",
@@ -144,7 +184,12 @@ func TestUpdateBeer_WhenUpdateBeerReturnsBeer_ReturnsBeer(t *testing.T) {
 			Country: "country",
 		},
 	}
-	interactor.On("UpdateBeer", ctx, &domain.UpdateBeerParams{ID: params.Id}).Return(&domain.Beer{
+	interactor.On("UpdateBeer", ctx, &domain.UpdateBeerParams{
+		ID:      params.Beer.Id,
+		Name:    &params.Beer.Name,
+		Brewer:  &params.Beer.Brewer,
+		Country: &params.Beer.Country,
+	}).Return(&domain.Beer{
 		ID:      expected.Beer.Id,
 		Name:    expected.Beer.Name,
 		Type:    domain.Ale,

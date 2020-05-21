@@ -53,6 +53,7 @@ func (b *GetBeerParams) Validate() error {
 // UpdateBeerParams describes parameters for updating a beer.
 type UpdateBeerParams struct {
 	ID      string
+	Name    *string
 	Brewer  *string
 	Country *string
 }

@@ -130,46 +130,46 @@ func toProtoBeer(in *domain.Beer) *beers.Beer {
 func toProtoType(in domain.Type) beers.Type {
 	switch in {
 	case domain.Ale:
-		return beers.Type_Ale
+		return beers.Type_ALE
 	case domain.Bitter:
-		return beers.Type_Bitter
+		return beers.Type_BITTER
 	case domain.Larger:
-		return beers.Type_Larger
+		return beers.Type_LARGER
 	case domain.IndiaPaleAle:
-		return beers.Type_IndiaPaleAle
+		return beers.Type_INDIA_PALE_ALE
 	case domain.Stout:
-		return beers.Type_Stout
+		return beers.Type_STOUT
 	case domain.Pilsner:
-		return beers.Type_Pilsner
+		return beers.Type_PILSNER
 	case domain.Porter:
-		return beers.Type_Porter
+		return beers.Type_PORTER
 	case domain.PaleAle:
-		return beers.Type_PaleAle
+		return beers.Type_PALE_ALE
 	case domain.Unknown:
-		return beers.Type_Unknown
+		return beers.Type_UNKNOWN
 	}
-	return beers.Type_Unknown
+	return beers.Type_UNKNOWN
 }
 
 func fromProtoType(in beers.Type) domain.Type {
 	switch in {
-	case beers.Type_Ale:
+	case beers.Type_ALE:
 		return domain.Ale
-	case beers.Type_Bitter:
+	case beers.Type_BITTER:
 		return domain.Bitter
-	case beers.Type_Larger:
+	case beers.Type_LARGER:
 		return domain.Larger
-	case beers.Type_IndiaPaleAle:
+	case beers.Type_INDIA_PALE_ALE:
 		return domain.IndiaPaleAle
-	case beers.Type_Stout:
+	case beers.Type_STOUT:
 		return domain.Stout
-	case beers.Type_Pilsner:
+	case beers.Type_PILSNER:
 		return domain.Pilsner
-	case beers.Type_Porter:
+	case beers.Type_PORTER:
 		return domain.Porter
-	case beers.Type_PaleAle:
+	case beers.Type_PALE_ALE:
 		return domain.PaleAle
-	case beers.Type_Unknown:
+	case beers.Type_UNKNOWN:
 		return domain.Unknown
 	}
 	return domain.Unknown

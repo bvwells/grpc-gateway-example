@@ -399,17 +399,17 @@
     "Type": {
       "type": "string",
       "enum": [
-        "Unknown",
-        "Ale",
-        "Bitter",
-        "Larger",
-        "IndiaPaleAle",
-        "Stout",
-        "Pilsner",
-        "Porter",
-        "PaleAle"
+        "UNKNOWN",
+        "ALE",
+        "BITTER",
+        "LARGER",
+        "INDIA_PALE_ALE",
+        "STOUT",
+        "PILSNER",
+        "PORTER",
+        "PALE_ALE"
       ],
-      "default": "Unknown"
+      "default": "UNKNOWN"
     },
     "UpdateBeerResponse": {
       "type": "object",

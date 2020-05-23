@@ -31,7 +31,7 @@ func TestCreateBeer_WhenCreateBeerReturnsError_ReturnsError(t *testing.T) {
 	ctx := context.Background()
 	params := &beers.CreateBeerRequest{
 		Name:    "a beer",
-		Type:    beers.Type_Ale,
+		Type:    beers.Type_ALE,
 		Brewer:  "brewer",
 		Country: "country",
 	}
@@ -55,14 +55,14 @@ func TestCreateBeer_WhenCreateBeerReturnsBeer_ReturnsBeer(t *testing.T) {
 		Beer: &beers.Beer{
 			Id:      "id",
 			Name:    "a beer",
-			Type:    beers.Type_Ale,
+			Type:    beers.Type_ALE,
 			Brewer:  "brewer",
 			Country: "country",
 		},
 	}
 	params := &beers.CreateBeerRequest{
 		Name:    "a beer",
-		Type:    beers.Type_Ale,
+		Type:    beers.Type_ALE,
 		Brewer:  "brewer",
 		Country: "country",
 	}
@@ -104,7 +104,7 @@ func TestGetBeer_WhenGetBeerReturnsBeer_ReturnsBeer(t *testing.T) {
 		Beer: &beers.Beer{
 			Id:      "id",
 			Name:    "a beer",
-			Type:    beers.Type_Ale,
+			Type:    beers.Type_ALE,
 			Brewer:  "brewer",
 			Country: "country",
 		},
@@ -179,7 +179,7 @@ func TestUpdateBeer_WhenUpdateBeerReturnsBeer_ReturnsBeer(t *testing.T) {
 		Beer: &beers.Beer{
 			Id:      "id",
 			Name:    "a beer",
-			Type:    beers.Type_Ale,
+			Type:    beers.Type_ALE,
 			Brewer:  "brewer",
 			Country: "country",
 		},

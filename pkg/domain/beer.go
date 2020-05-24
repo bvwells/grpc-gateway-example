@@ -1,9 +1,5 @@
 package domain
 
-import (
-	"errors"
-)
-
 // Beer is a definition of a beer.
 type Beer struct {
 	ID      string
@@ -16,7 +12,7 @@ type Beer struct {
 // Validate validates a beer.
 func (b *Beer) Validate() error {
 	if b.ID == "" {
-		return errors.New("beer ID is empty")
+		return NewValidationError("beer ID is empty")
 	}
 	return nil
 }
@@ -32,7 +28,7 @@ type CreateBeerParams struct {
 // Validate validates the CreateBeerParams.
 func (b *CreateBeerParams) Validate() error {
 	if b.Name == "" {
-		return errors.New("beer name is empty")
+		return NewValidationError("beer name is empty")
 	}
 	return nil
 }
@@ -45,7 +41,7 @@ type GetBeerParams struct {
 // Validate validates the GetBeerParams.
 func (b *GetBeerParams) Validate() error {
 	if b.ID == "" {
-		return errors.New("beer ID is empty")
+		return NewValidationError("beer ID is empty")
 	}
 	return nil
 }
@@ -61,7 +57,7 @@ type UpdateBeerParams struct {
 // Validate validates the UpdateBeerParams.
 func (b *UpdateBeerParams) Validate() error {
 	if b.ID == "" {
-		return errors.New("beer ID is empty")
+		return NewValidationError("beer ID is empty")
 	}
 	return nil
 }
@@ -74,7 +70,7 @@ type DeleteBeerParams struct {
 // Validate validates the DeleteBeerParams.
 func (b *DeleteBeerParams) Validate() error {
 	if b.ID == "" {
-		return errors.New("beer ID is empty")
+		return NewValidationError("beer ID is empty")
 	}
 	return nil
 }

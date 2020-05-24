@@ -2,6 +2,7 @@ package adapters
 
 import (
 	"context"
+	"errors"
 	"strings"
 
 	"github.com/bvwells/grpc-gateway-example/pkg/domain"
@@ -44,7 +45,7 @@ func (svc *BeerService) CreateBeer(ctx context.Context, params *beers.CreateBeer
 		Country: params.Country,
 	})
 	if err != nil {
-		return nil, err
+		return nil, toError(err)
 	}
 	return &beers.CreateBeerResponse{
 		Beer: toProtoBeer(item),
@@ -55,7 +56,7 @@ func (svc *BeerService) CreateBeer(ctx context.Context, params *beers.CreateBeer
 func (svc *BeerService) GetBeer(ctx context.Context, params *beers.GetBeerRequest) (*beers.GetBeerResponse, error) {
 	item, err := svc.interactor.GetBeer(ctx, &domain.GetBeerParams{ID: params.Id})
 	if err != nil {
-		return nil, err
+		return nil, toError(err)
 	}
 	return &beers.GetBeerResponse{
 		Beer: toProtoBeer(item),
@@ -86,7 +87,7 @@ func (svc *BeerService) UpdateBeer(ctx context.Context, params *beers.UpdateBeer
 
 	item, err := svc.interactor.UpdateBeer(ctx, updateParams)
 	if err != nil {
-		return nil, err
+		return nil, toError(err)
 	}
 	return &beers.UpdateBeerResponse{
 		Beer: toProtoBeer(item),
@@ -97,7 +98,7 @@ func (svc *BeerService) UpdateBeer(ctx context.Context, params *beers.UpdateBeer
 func (svc *BeerService) DeleteBeer(ctx context.Context, params *beers.DeleteBeerRequest) (*beers.DeleteBeerResponse, error) {
 	err := svc.interactor.DeleteBeer(ctx, &domain.DeleteBeerParams{ID: params.Id})
 	if err != nil {
-		return nil, err
+		return nil, toError(err)
 	}
 	return &beers.DeleteBeerResponse{}, nil
 }
@@ -106,7 +107,7 @@ func (svc *BeerService) DeleteBeer(ctx context.Context, params *beers.DeleteBeer
 func (svc *BeerService) GetBeers(ctx context.Context, _ *beers.GetBeersRequest) (*beers.GetBeersResponse, error) {
 	items, err := svc.interactor.GetBeers(ctx, &domain.GetBeersParams{})
 	if err != nil {
-		return nil, err
+		return nil, toError(err)
 	}
 	b := &beers.GetBeersResponse{
 		Beers: make([]*beers.Beer, 0, len(items)),
@@ -173,4 +174,11 @@ func fromProtoType(in beers.Type) domain.Type {
 		return domain.Unknown
 	}
 	return domain.Unknown
+}
+
+func toError(err error) error {
+	if errors.As(err, &domain.ValidationError{}) {
+		return status.Error(codes.InvalidArgument, err.Error())
+	}
+	return status.Error(codes.Internal, err.Error())
 }

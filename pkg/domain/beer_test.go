@@ -1,7 +1,6 @@
 package domain_test
 
 import (
-	"errors"
 	"fmt"
 	"testing"
 
@@ -25,7 +24,7 @@ func TestBeerValidate(t *testing.T) {
 		{
 			name: "missing id field",
 			beer: &domain.Beer{},
-			err:  errors.New("beer ID is empty"),
+			err:  domain.NewValidationError("beer ID is empty"),
 		},
 	}
 
@@ -51,7 +50,7 @@ func TestCreateBeerParamsValidate(t *testing.T) {
 		{
 			name:   "missing name field",
 			params: &domain.CreateBeerParams{},
-			err:    errors.New("beer name is empty"),
+			err:    domain.NewValidationError("beer name is empty"),
 		},
 	}
 
@@ -77,7 +76,7 @@ func TestGetBeerParamsValidate(t *testing.T) {
 		{
 			name:   "missing id field",
 			params: &domain.GetBeerParams{},
-			err:    errors.New("beer ID is empty"),
+			err:    domain.NewValidationError("beer ID is empty"),
 		},
 	}
 
@@ -103,7 +102,7 @@ func TestUpdateBeerParamsValidate(t *testing.T) {
 		{
 			name:   "missing id field",
 			params: &domain.UpdateBeerParams{},
-			err:    errors.New("beer ID is empty"),
+			err:    domain.NewValidationError("beer ID is empty"),
 		},
 	}
 
@@ -129,7 +128,7 @@ func TestDeleteBeerParamsValidate(t *testing.T) {
 		{
 			name:   "missing id field",
 			params: &domain.DeleteBeerParams{},
-			err:    errors.New("beer ID is empty"),
+			err:    domain.NewValidationError("beer ID is empty"),
 		},
 	}
 

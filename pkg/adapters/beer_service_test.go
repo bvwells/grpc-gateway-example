@@ -35,13 +35,37 @@ func TestCreateBeer_WhenCreateBeerReturnsError_ReturnsError(t *testing.T) {
 		Brewer:  "brewer",
 		Country: "country",
 	}
-	expected := errors.New("something went wrong")
+	msg := "something went wrong"
+	expected := status.Error(codes.Internal, msg)
 	interactor.On("CreateBeer", ctx, &domain.CreateBeerParams{
 		Name:    params.Name,
 		Type:    domain.Ale,
 		Brewer:  params.Brewer,
 		Country: params.Country,
-	}).Return(nil, expected)
+	}).Return(nil, errors.New(msg))
+	_, actual := service.CreateBeer(ctx, params)
+	assert.Equal(t, expected, actual)
+}
+
+func TestCreateBeer_WhenCreateBeerReturnsValidationError_ReturnsInvalidArgumentError(t *testing.T) {
+	t.Parallel()
+	interactor := &mocks.BeerInteractor{}
+	service := adapters.NewBeerService(interactor)
+	ctx := context.Background()
+	params := &beers.CreateBeerRequest{
+		Name:    "a beer",
+		Type:    beers.Type_ALE,
+		Brewer:  "brewer",
+		Country: "country",
+	}
+	msg := "something went wrong"
+	expected := status.Error(codes.InvalidArgument, msg)
+	interactor.On("CreateBeer", ctx, &domain.CreateBeerParams{
+		Name:    params.Name,
+		Type:    domain.Ale,
+		Brewer:  params.Brewer,
+		Country: params.Country,
+	}).Return(nil, domain.NewValidationError(msg))
 	_, actual := service.CreateBeer(ctx, params)
 	assert.Equal(t, expected, actual)
 }
@@ -88,8 +112,24 @@ func TestGetBeer_WhenGetBeerReturnsError_ReturnsError(t *testing.T) {
 	service := adapters.NewBeerService(interactor)
 	ctx := context.Background()
 	params := &beers.GetBeerRequest{Id: "ID"}
-	expected := errors.New("something went wrong")
-	interactor.On("GetBeer", ctx, &domain.GetBeerParams{ID: params.Id}).Return(nil, expected)
+
+	msg := "something went wrong"
+	expected := status.Error(codes.Internal, msg)
+	interactor.On("GetBeer", ctx, &domain.GetBeerParams{ID: params.Id}).Return(nil, errors.New(msg))
+	_, actual := service.GetBeer(ctx, params)
+	assert.Equal(t, expected, actual)
+}
+
+func TestGetBeer_WhenGetBeerReturnsValidationError_ReturnsInvalidArgumentError(t *testing.T) {
+	t.Parallel()
+	interactor := &mocks.BeerInteractor{}
+	service := adapters.NewBeerService(interactor)
+	ctx := context.Background()
+	params := &beers.GetBeerRequest{Id: "ID"}
+
+	msg := "something went wrong"
+	expected := status.Error(codes.InvalidArgument, msg)
+	interactor.On("GetBeer", ctx, &domain.GetBeerParams{ID: params.Id}).Return(nil, domain.NewValidationError(msg))
 	_, actual := service.GetBeer(ctx, params)
 	assert.Equal(t, expected, actual)
 }
@@ -160,8 +200,25 @@ func TestUpdateBeer_WhenUpdateBeerReturnsError_ReturnsError(t *testing.T) {
 		Beer:       &beers.Beer{Id: "id", Name: "name"},
 		UpdateMask: &field_mask.FieldMask{Paths: []string{"NaMe"}},
 	}
-	expected := errors.New("something went wrong")
-	interactor.On("UpdateBeer", ctx, &domain.UpdateBeerParams{ID: params.Beer.Id, Name: &params.Beer.Name}).Return(nil, expected)
+	msg := "something went wrong"
+	expected := status.Error(codes.Internal, msg)
+	interactor.On("UpdateBeer", ctx, &domain.UpdateBeerParams{ID: params.Beer.Id, Name: &params.Beer.Name}).Return(nil, errors.New(msg))
+	_, actual := service.UpdateBeer(ctx, params)
+	assert.Equal(t, expected, actual)
+}
+
+func TestUpdateBeer_WhenUpdateBeerReturnsValidationError_ReturnsInvalidArgumentError(t *testing.T) {
+	t.Parallel()
+	interactor := &mocks.BeerInteractor{}
+	service := adapters.NewBeerService(interactor)
+	ctx := context.Background()
+	params := &beers.UpdateBeerRequest{
+		Beer:       &beers.Beer{Id: "id", Name: "name"},
+		UpdateMask: &field_mask.FieldMask{Paths: []string{"NaMe"}},
+	}
+	msg := "something went wrong"
+	expected := status.Error(codes.InvalidArgument, msg)
+	interactor.On("UpdateBeer", ctx, &domain.UpdateBeerParams{ID: params.Beer.Id, Name: &params.Beer.Name}).Return(nil, domain.NewValidationError(msg))
 	_, actual := service.UpdateBeer(ctx, params)
 	assert.Equal(t, expected, actual)
 }
@@ -206,8 +263,22 @@ func TestDeleteBeer_WhenDeleteBeerReturnsError_ReturnsError(t *testing.T) {
 	service := adapters.NewBeerService(interactor)
 	ctx := context.Background()
 	params := &beers.DeleteBeerRequest{Id: "id"}
-	expected := errors.New("something went wrong")
-	interactor.On("DeleteBeer", ctx, &domain.DeleteBeerParams{ID: params.Id}).Return(expected)
+	msg := "something went wrong"
+	expected := status.Error(codes.Internal, msg)
+	interactor.On("DeleteBeer", ctx, &domain.DeleteBeerParams{ID: params.Id}).Return(errors.New(msg))
+	_, actual := service.DeleteBeer(ctx, params)
+	assert.Equal(t, expected, actual)
+}
+
+func TestDeleteBeer_WhenDeleteBeerReturnsValidationError_ReturnsInvalidArgumentError(t *testing.T) {
+	t.Parallel()
+	interactor := &mocks.BeerInteractor{}
+	service := adapters.NewBeerService(interactor)
+	ctx := context.Background()
+	params := &beers.DeleteBeerRequest{Id: "id"}
+	msg := "something went wrong"
+	expected := status.Error(codes.InvalidArgument, msg)
+	interactor.On("DeleteBeer", ctx, &domain.DeleteBeerParams{ID: params.Id}).Return(domain.NewValidationError(msg))
 	_, actual := service.DeleteBeer(ctx, params)
 	assert.Equal(t, expected, actual)
 }
@@ -228,8 +299,21 @@ func TestGetBeers_WhenGetBeersReturnsError_ReturnsError(t *testing.T) {
 	interactor := &mocks.BeerInteractor{}
 	service := adapters.NewBeerService(interactor)
 	ctx := context.Background()
-	expected := errors.New("something went wrong")
-	interactor.On("GetBeers", ctx, &domain.GetBeersParams{}).Return(nil, expected)
+	msg := "something went wrong"
+	expected := status.Error(codes.Internal, msg)
+	interactor.On("GetBeers", ctx, &domain.GetBeersParams{}).Return(nil, errors.New(msg))
+	_, actual := service.GetBeers(ctx, &beers.GetBeersRequest{})
+	assert.Equal(t, expected, actual)
+}
+
+func TestGetBeers_WhenGetBeersReturnsValidationError_ReturnsInvalidArgumentError(t *testing.T) {
+	t.Parallel()
+	interactor := &mocks.BeerInteractor{}
+	service := adapters.NewBeerService(interactor)
+	ctx := context.Background()
+	msg := "something went wrong"
+	expected := status.Error(codes.InvalidArgument, msg)
+	interactor.On("GetBeers", ctx, &domain.GetBeersParams{}).Return(nil, domain.NewValidationError(msg))
 	_, actual := service.GetBeers(ctx, &beers.GetBeersRequest{})
 	assert.Equal(t, expected, actual)
 }

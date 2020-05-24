@@ -22,8 +22,8 @@ func TestTypeString(t *testing.T) {
 			val: "Bitter",
 		},
 		{
-			ty:  domain.Larger,
-			val: "Larger",
+			ty:  domain.Lager,
+			val: "Lager",
 		},
 		{
 			ty:  domain.IndiaPaleAle,

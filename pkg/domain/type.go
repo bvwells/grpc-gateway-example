@@ -7,7 +7,7 @@ const (
 	Unknown Type = iota + 1
 	Ale
 	Bitter
-	Larger
+	Lager
 	IndiaPaleAle
 	Stout
 	Pilsner
@@ -19,7 +19,7 @@ var types = [...]string{
 	"Unknown",
 	"Ale",
 	"Bitter",
-	"Larger",
+	"Lager",
 	"IndiaPaleAle",
 	"Stout",
 	"Pilsner",

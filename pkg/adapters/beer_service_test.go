@@ -54,7 +54,7 @@ func TestCreateBeer_WhenCreateBeerReturnsValidationError_ReturnsInvalidArgumentE
 	ctx := context.Background()
 	params := &beers.CreateBeerRequest{
 		Name:    "a beer",
-		Type:    beers.Type_ALE,
+		Type:    beers.Type_BITTER,
 		Brewer:  "brewer",
 		Country: "country",
 	}
@@ -62,7 +62,7 @@ func TestCreateBeer_WhenCreateBeerReturnsValidationError_ReturnsInvalidArgumentE
 	expected := status.Error(codes.InvalidArgument, msg)
 	interactor.On("CreateBeer", ctx, &domain.CreateBeerParams{
 		Name:    params.Name,
-		Type:    domain.Ale,
+		Type:    domain.Bitter,
 		Brewer:  params.Brewer,
 		Country: params.Country,
 	}).Return(nil, domain.NewValidationError(msg))
@@ -79,26 +79,26 @@ func TestCreateBeer_WhenCreateBeerReturnsBeer_ReturnsBeer(t *testing.T) {
 		Beer: &beers.Beer{
 			Id:      "id",
 			Name:    "a beer",
-			Type:    beers.Type_ALE,
+			Type:    beers.Type_LAGER,
 			Brewer:  "brewer",
 			Country: "country",
 		},
 	}
 	params := &beers.CreateBeerRequest{
 		Name:    "a beer",
-		Type:    beers.Type_ALE,
+		Type:    beers.Type_LAGER,
 		Brewer:  "brewer",
 		Country: "country",
 	}
 	interactor.On("CreateBeer", ctx, &domain.CreateBeerParams{
 		Name:    expected.Beer.Name,
-		Type:    domain.Ale,
+		Type:    domain.Lager,
 		Brewer:  expected.Beer.Brewer,
 		Country: expected.Beer.Country,
 	}).Return(&domain.Beer{
 		ID:      expected.Beer.Id,
 		Name:    expected.Beer.Name,
-		Type:    domain.Ale,
+		Type:    domain.Lager,
 		Brewer:  expected.Beer.Brewer,
 		Country: expected.Beer.Country,
 	}, nil)
@@ -144,7 +144,7 @@ func TestGetBeer_WhenGetBeerReturnsBeer_ReturnsBeer(t *testing.T) {
 		Beer: &beers.Beer{
 			Id:      "id",
 			Name:    "a beer",
-			Type:    beers.Type_ALE,
+			Type:    beers.Type_INDIA_PALE_ALE,
 			Brewer:  "brewer",
 			Country: "country",
 		},
@@ -152,7 +152,7 @@ func TestGetBeer_WhenGetBeerReturnsBeer_ReturnsBeer(t *testing.T) {
 	interactor.On("GetBeer", ctx, &domain.GetBeerParams{ID: params.Id}).Return(&domain.Beer{
 		ID:      expected.Beer.Id,
 		Name:    expected.Beer.Name,
-		Type:    domain.Ale,
+		Type:    domain.IndiaPaleAle,
 		Brewer:  expected.Beer.Brewer,
 		Country: expected.Beer.Country,
 	}, nil)
@@ -236,7 +236,7 @@ func TestUpdateBeer_WhenUpdateBeerReturnsBeer_ReturnsBeer(t *testing.T) {
 		Beer: &beers.Beer{
 			Id:      "id",
 			Name:    "a beer",
-			Type:    beers.Type_ALE,
+			Type:    beers.Type_STOUT,
 			Brewer:  "brewer",
 			Country: "country",
 		},
@@ -249,7 +249,7 @@ func TestUpdateBeer_WhenUpdateBeerReturnsBeer_ReturnsBeer(t *testing.T) {
 	}).Return(&domain.Beer{
 		ID:      expected.Beer.Id,
 		Name:    expected.Beer.Name,
-		Type:    domain.Ale,
+		Type:    domain.Stout,
 		Brewer:  expected.Beer.Brewer,
 		Country: expected.Beer.Country,
 	}, nil)
@@ -325,13 +325,17 @@ func TestGetBeers_WhenGetBeersReturnsBeers_ReturnsBeers(t *testing.T) {
 	ctx := context.Background()
 	expected := &beers.GetBeersResponse{
 		Beers: []*beers.Beer{
-			{Id: "id1"},
-			{Id: "id2"},
+			{Id: "id1", Type: beers.Type_PILSNER},
+			{Id: "id2", Type: beers.Type_PORTER},
+			{Id: "id3", Type: beers.Type_PALE_ALE},
+			{Id: "id4", Type: beers.Type_UNKNOWN},
 		},
 	}
 	interactor.On("GetBeers", ctx, &domain.GetBeersParams{}).Return([]*domain.Beer{
-		{ID: expected.Beers[0].Id},
-		{ID: expected.Beers[1].Id},
+		{ID: expected.Beers[0].Id, Type: domain.Pilsner},
+		{ID: expected.Beers[1].Id, Type: domain.Porter},
+		{ID: expected.Beers[2].Id, Type: domain.PaleAle},
+		{ID: expected.Beers[3].Id, Type: domain.Unknown},
 	}, nil)
 	actual, _ := service.GetBeers(ctx, &beers.GetBeersRequest{})
 	assert.Equal(t, expected, actual)

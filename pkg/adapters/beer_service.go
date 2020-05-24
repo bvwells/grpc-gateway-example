@@ -134,8 +134,8 @@ func toProtoType(in domain.Type) beers.Type {
 		return beers.Type_ALE
 	case domain.Bitter:
 		return beers.Type_BITTER
-	case domain.Larger:
-		return beers.Type_LARGER
+	case domain.Lager:
+		return beers.Type_LAGER
 	case domain.IndiaPaleAle:
 		return beers.Type_INDIA_PALE_ALE
 	case domain.Stout:
@@ -158,8 +158,8 @@ func fromProtoType(in beers.Type) domain.Type {
 		return domain.Ale
 	case beers.Type_BITTER:
 		return domain.Bitter
-	case beers.Type_LARGER:
-		return domain.Larger
+	case beers.Type_LAGER:
+		return domain.Lager
 	case beers.Type_INDIA_PALE_ALE:
 		return domain.IndiaPaleAle
 	case beers.Type_STOUT:

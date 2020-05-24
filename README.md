@@ -36,19 +36,31 @@ Add $GOBIN to path
 export PATH=$PATH:~/go/bin
 ```
 
-## Generate gRPC server/client stub
+## Code generation 
+
+From root of repo run:
+
+```
+go generate ./...
+```
+
+This will re-generate required code. Go generate will generate grpc server/client
+stubs, the grpc gateway reverse proxy and open api definition for the protobuf
+definition. These commands can be run with the following commands:
+
+### Generate gRPC server/client stub
 
 ```
 protoc -I. --go_out=plugins=grpc,paths=source_relative:./ api.proto
 ```
 
-## Generate reverse-proxy using protoc-gen-grpc-gateway
+### Generate reverse-proxy using protoc-gen-grpc-gateway
 
 ```
 protoc -I. --grpc-gateway_out=logtostderr=true,paths=source_relative:./ api.proto 
 ```
 
-## Generate swagger definitions using protoc-gen-swagger
+### Generate swagger definitions using protoc-gen-swagger
 
 ```
 protoc -I. --swagger_out=disable_default_errors=true,logtostderr=true:../api/openapi-spec api.proto
@@ -65,7 +77,7 @@ brew install postgresql
 Run the docker image postgres (https://hub.docker.com/_/postgres):
 
 ```
-docker run --rm   --name beers -e POSTGRES_PASSWORD=docker -p 5432:5432 -v $HOME/Git/github.com/bvwells/grpc-gateway-example/pkg/infrastructure/postres:/var/lib/postgresql/data postgres
+docker run --rm --name beers -e POSTGRES_PASSWORD=docker -p 5432:5432 -v $HOME/Git/github.com/bvwells/grpc-gateway-example/pkg/infrastructure/postres:/var/lib/postgresql/data postgres
 ```
 
 NOTE: The environment variable POSTGRES_PASSWORD should be set to a secret when running in a real environment.
@@ -124,8 +136,6 @@ Help:
 \? table_name
 ```
 
-
 ## TODOs
 
 - What to do with request headers?
-- Patch request.

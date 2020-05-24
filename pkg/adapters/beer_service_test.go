@@ -35,7 +35,7 @@ func TestCreateBeer_WhenCreateBeerReturnsError_ReturnsError(t *testing.T) {
 		Brewer:  "brewer",
 		Country: "country",
 	}
-	msg := "something went wrong"
+	const msg = "something went wrong"
 	expected := status.Error(codes.Internal, msg)
 	interactor.On("CreateBeer", ctx, &domain.CreateBeerParams{
 		Name:    params.Name,
@@ -58,7 +58,7 @@ func TestCreateBeer_WhenCreateBeerReturnsValidationError_ReturnsInvalidArgumentE
 		Brewer:  "brewer",
 		Country: "country",
 	}
-	msg := "something went wrong"
+	const msg = "something went wrong"
 	expected := status.Error(codes.InvalidArgument, msg)
 	interactor.On("CreateBeer", ctx, &domain.CreateBeerParams{
 		Name:    params.Name,
@@ -113,7 +113,7 @@ func TestGetBeer_WhenGetBeerReturnsError_ReturnsError(t *testing.T) {
 	ctx := context.Background()
 	params := &beers.GetBeerRequest{Id: "ID"}
 
-	msg := "something went wrong"
+	const msg = "something went wrong"
 	expected := status.Error(codes.Internal, msg)
 	interactor.On("GetBeer", ctx, &domain.GetBeerParams{ID: params.Id}).Return(nil, errors.New(msg))
 	_, actual := service.GetBeer(ctx, params)
@@ -127,7 +127,7 @@ func TestGetBeer_WhenGetBeerReturnsValidationError_ReturnsInvalidArgumentError(t
 	ctx := context.Background()
 	params := &beers.GetBeerRequest{Id: "ID"}
 
-	msg := "something went wrong"
+	const msg = "something went wrong"
 	expected := status.Error(codes.InvalidArgument, msg)
 	interactor.On("GetBeer", ctx, &domain.GetBeerParams{ID: params.Id}).Return(nil, domain.NewValidationError(msg))
 	_, actual := service.GetBeer(ctx, params)
@@ -200,7 +200,7 @@ func TestUpdateBeer_WhenUpdateBeerReturnsError_ReturnsError(t *testing.T) {
 		Beer:       &beers.Beer{Id: "id", Name: "name"},
 		UpdateMask: &field_mask.FieldMask{Paths: []string{"NaMe"}},
 	}
-	msg := "something went wrong"
+	const msg = "something went wrong"
 	expected := status.Error(codes.Internal, msg)
 	interactor.On("UpdateBeer", ctx, &domain.UpdateBeerParams{ID: params.Beer.Id, Name: &params.Beer.Name}).Return(nil, errors.New(msg))
 	_, actual := service.UpdateBeer(ctx, params)
@@ -216,7 +216,7 @@ func TestUpdateBeer_WhenUpdateBeerReturnsValidationError_ReturnsInvalidArgumentE
 		Beer:       &beers.Beer{Id: "id", Name: "name"},
 		UpdateMask: &field_mask.FieldMask{Paths: []string{"NaMe"}},
 	}
-	msg := "something went wrong"
+	const msg = "something went wrong"
 	expected := status.Error(codes.InvalidArgument, msg)
 	interactor.On("UpdateBeer", ctx, &domain.UpdateBeerParams{ID: params.Beer.Id, Name: &params.Beer.Name}).Return(nil, domain.NewValidationError(msg))
 	_, actual := service.UpdateBeer(ctx, params)
@@ -263,7 +263,7 @@ func TestDeleteBeer_WhenDeleteBeerReturnsError_ReturnsError(t *testing.T) {
 	service := adapters.NewBeerService(interactor)
 	ctx := context.Background()
 	params := &beers.DeleteBeerRequest{Id: "id"}
-	msg := "something went wrong"
+	const msg = "something went wrong"
 	expected := status.Error(codes.Internal, msg)
 	interactor.On("DeleteBeer", ctx, &domain.DeleteBeerParams{ID: params.Id}).Return(errors.New(msg))
 	_, actual := service.DeleteBeer(ctx, params)
@@ -276,7 +276,7 @@ func TestDeleteBeer_WhenDeleteBeerReturnsValidationError_ReturnsInvalidArgumentE
 	service := adapters.NewBeerService(interactor)
 	ctx := context.Background()
 	params := &beers.DeleteBeerRequest{Id: "id"}
-	msg := "something went wrong"
+	const msg = "something went wrong"
 	expected := status.Error(codes.InvalidArgument, msg)
 	interactor.On("DeleteBeer", ctx, &domain.DeleteBeerParams{ID: params.Id}).Return(domain.NewValidationError(msg))
 	_, actual := service.DeleteBeer(ctx, params)
@@ -299,7 +299,7 @@ func TestGetBeers_WhenGetBeersReturnsError_ReturnsError(t *testing.T) {
 	interactor := &mocks.BeerInteractor{}
 	service := adapters.NewBeerService(interactor)
 	ctx := context.Background()
-	msg := "something went wrong"
+	const msg = "something went wrong"
 	expected := status.Error(codes.Internal, msg)
 	interactor.On("GetBeers", ctx, &domain.GetBeersParams{}).Return(nil, errors.New(msg))
 	_, actual := service.GetBeers(ctx, &beers.GetBeersRequest{})
@@ -311,7 +311,7 @@ func TestGetBeers_WhenGetBeersReturnsValidationError_ReturnsInvalidArgumentError
 	interactor := &mocks.BeerInteractor{}
 	service := adapters.NewBeerService(interactor)
 	ctx := context.Background()
-	msg := "something went wrong"
+	const msg = "something went wrong"
 	expected := status.Error(codes.InvalidArgument, msg)
 	interactor.On("GetBeers", ctx, &domain.GetBeersParams{}).Return(nil, domain.NewValidationError(msg))
 	_, actual := service.GetBeers(ctx, &beers.GetBeersRequest{})

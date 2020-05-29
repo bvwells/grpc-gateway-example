@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"encoding/json"
 	"net"
 	"net/http"
 
@@ -19,8 +20,10 @@ import (
 	"github.com/joonix/log"
 	"github.com/sirupsen/logrus"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/health"
 	"google.golang.org/grpc/health/grpc_health_v1"
+	"google.golang.org/grpc/status"
 )
 
 const (
@@ -97,7 +100,9 @@ func main() {
 
 	// Register gRPC server endpoint
 	// Note: Make sure the gRPC server is running properly and accessible
-	mux := runtime.NewServeMux()
+	mux := runtime.NewServeMux(
+		runtime.WithProtoErrorHandler(NewProtoErrorHandler(logger)),
+	)
 	err = gw.RegisterBeerServiceHandler(context.Background(), mux, conn)
 	if err != nil {
 		logger.Fatalf("error registering beer service handler: %v", err)
@@ -109,5 +114,34 @@ func main() {
 	err = http.ListenAndServe(":8080", mux)
 	if err != nil {
 		logger.Fatalf("error serving beer service: %v", err)
+	}
+}
+
+func NewProtoErrorHandler(logger *logrus.Logger) runtime.ProtoErrorHandlerFunc {
+	return func(ctx context.Context, mux *runtime.ServeMux, marshaler runtime.Marshaler, w http.ResponseWriter, _ *http.Request, err error) {
+		s, ok := status.FromError(err)
+		if !ok {
+			s = status.New(codes.Unknown, err.Error())
+		}
+
+		st := runtime.HTTPStatusFromCode(s.Code())
+
+		type Error struct {
+			Code    int32  `json:"code"`
+			Message string `json:"message"`
+		}
+		httpError := &Error{
+			Code:    int32(st),
+			Message: s.Message(),
+		}
+		w.Header().Set("Content-Type", "application/json")
+		buf, err := json.Marshal(httpError)
+		if err != nil {
+			logger.Infof("failed to marshall error response: %v", err)
+		}
+		w.WriteHeader(st)
+		if _, err := w.Write(buf); err != nil {
+			logger.Infof("failed to write response: %v", err)
+		}
 	}
 }

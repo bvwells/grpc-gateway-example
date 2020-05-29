@@ -76,6 +76,9 @@ func (svc *BeerService) UpdateBeer(ctx context.Context, params *beers.UpdateBeer
 		switch field := strings.ToLower(path); field {
 		case "name":
 			updateParams.Name = &params.Beer.Name
+		case "type":
+			beerType := fromProtoType(params.Beer.Type)
+			updateParams.Type = &beerType
 		case "brewer":
 			updateParams.Brewer = &params.Beer.Brewer
 		case "country":

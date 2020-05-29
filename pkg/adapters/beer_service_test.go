@@ -229,8 +229,8 @@ func TestUpdateBeer_WhenUpdateBeerReturnsBeer_ReturnsBeer(t *testing.T) {
 	service := adapters.NewBeerService(interactor)
 	ctx := context.Background()
 	params := &beers.UpdateBeerRequest{
-		Beer:       &beers.Beer{Id: "id", Name: "name", Brewer: "brewer", Country: "Country"},
-		UpdateMask: &field_mask.FieldMask{Paths: []string{"NaMe", "Country", "breweR"}},
+		Beer:       &beers.Beer{Id: "id", Name: "name", Type: beers.Type_STOUT, Brewer: "brewer", Country: "Country"},
+		UpdateMask: &field_mask.FieldMask{Paths: []string{"NaMe", "type", "Country", "breweR"}},
 	}
 	expected := &beers.UpdateBeerResponse{
 		Beer: &beers.Beer{
@@ -241,10 +241,12 @@ func TestUpdateBeer_WhenUpdateBeerReturnsBeer_ReturnsBeer(t *testing.T) {
 			Country: "country",
 		},
 	}
+	beerType := domain.Stout
 	interactor.On("UpdateBeer", ctx, &domain.UpdateBeerParams{
 		ID:      params.Beer.Id,
 		Name:    &params.Beer.Name,
 		Brewer:  &params.Beer.Brewer,
+		Type:    &beerType,
 		Country: &params.Beer.Country,
 	}).Return(&domain.Beer{
 		ID:      expected.Beer.Id,

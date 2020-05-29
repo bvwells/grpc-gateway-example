@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"net"
 	"net/http"
+	"net/textproto"
 
 	"github.com/bvwells/grpc-gateway-example/pkg/adapters"
 	"github.com/bvwells/grpc-gateway-example/pkg/infrastructure"
@@ -23,6 +24,7 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/health"
 	"google.golang.org/grpc/health/grpc_health_v1"
+	"google.golang.org/grpc/metadata"
 	"google.golang.org/grpc/status"
 )
 
@@ -102,6 +104,8 @@ func main() {
 	// Note: Make sure the gRPC server is running properly and accessible
 	mux := runtime.NewServeMux(
 		runtime.WithProtoErrorHandler(NewProtoErrorHandler(logger)),
+		runtime.WithIncomingHeaderMatcher(NewHeaderMatcher()),
+		runtime.WithMetadata(NewAnnotator()),
 	)
 	err = gw.RegisterBeerServiceHandler(context.Background(), mux, conn)
 	if err != nil {
@@ -117,6 +121,8 @@ func main() {
 	}
 }
 
+// NewProtoErrorHandler returns a new runtime.ProtoErrorHandlerFunc and
+// illustrates how custom responses can be returned from the grpc gateway.
 func NewProtoErrorHandler(logger *logrus.Logger) runtime.ProtoErrorHandlerFunc {
 	return func(ctx context.Context, mux *runtime.ServeMux, marshaler runtime.Marshaler, w http.ResponseWriter, _ *http.Request, err error) {
 		s, ok := status.FromError(err)
@@ -143,5 +149,27 @@ func NewProtoErrorHandler(logger *logrus.Logger) runtime.ProtoErrorHandlerFunc {
 		if _, err := w.Write(buf); err != nil {
 			logger.Infof("failed to write response: %v", err)
 		}
+	}
+}
+
+// NewHeaderMatcher returns a new runtime.HeaderMatcherFunc and illustrates
+// how to match request headers and add them to the grpc metadata.
+func NewHeaderMatcher() runtime.HeaderMatcherFunc {
+	return func(key string) (string, bool) {
+		key = textproto.CanonicalMIMEHeaderKey(key)
+		if key == "X-Request-Id" {
+			return key, true
+		}
+
+		return "", false
+	}
+}
+
+// NewAnnotator returns a new grpc metadata annotator and illustrates
+// how custom data can be added to the grpc metadata request context.
+func NewAnnotator() func(context.Context, *http.Request) metadata.MD {
+	return func(ctx context.Context, req *http.Request) metadata.MD {
+		xRequestID := req.Header.Get("X-Request-Id")
+		return metadata.New(map[string]string{"corelationID": xRequestID})
 	}
 }

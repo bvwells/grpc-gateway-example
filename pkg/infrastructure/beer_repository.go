@@ -8,7 +8,7 @@ import (
 
 	"github.com/bvwells/grpc-gateway-example/pkg/domain"
 
-	_ "github.com/lib/pq"
+	_ "github.com/lib/pq" // imported for side effect.
 )
 
 const numberRows = 50

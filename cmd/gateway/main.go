@@ -9,7 +9,6 @@ import (
 	"github.com/bvwells/grpc-gateway-example/pkg/infrastructure"
 	"github.com/bvwells/grpc-gateway-example/pkg/usecases"
 	"github.com/bvwells/grpc-gateway-example/proto/beers"
-	gw "github.com/bvwells/grpc-gateway-example/proto/beers"
 
 	"github.com/google/uuid"
 	grpc_middleware "github.com/grpc-ecosystem/go-grpc-middleware"
@@ -102,7 +101,7 @@ func main() {
 		runtime.WithIncomingHeaderMatcher(adapters.NewHeaderMatcher()),
 		runtime.WithMetadata(adapters.NewAnnotator()),
 	)
-	err = gw.RegisterBeerServiceHandler(context.Background(), mux, conn)
+	err = beers.RegisterBeerServiceHandler(context.Background(), mux, conn)
 	if err != nil {
 		logger.Fatalf("error registering beer service handler: %v", err)
 	}

@@ -16,7 +16,7 @@ import (
 // NewProtoErrorHandler returns a new runtime.ProtoErrorHandlerFunc and
 // illustrates how custom responses can be returned from the grpc gateway.
 func NewProtoErrorHandler(logger *logrus.Logger) runtime.ProtoErrorHandlerFunc {
-	return func(ctx context.Context, mux *runtime.ServeMux, marshaler runtime.Marshaler, w http.ResponseWriter, _ *http.Request, err error) {
+	return func(_ context.Context, _ *runtime.ServeMux, _ runtime.Marshaler, w http.ResponseWriter, _ *http.Request, err error) {
 		s, ok := status.FromError(err)
 		if !ok {
 			s = status.New(codes.Unknown, err.Error())

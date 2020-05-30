@@ -2,15 +2,79 @@ package adapters_test
 
 import (
 	"context"
+	"errors"
 	"fmt"
+	"io/ioutil"
 	"net/http"
+	"net/http/httptest"
 	"testing"
 
 	"github.com/bvwells/grpc-gateway-example/pkg/adapters"
 
+	"github.com/sirupsen/logrus/hooks/test"
 	"github.com/stretchr/testify/assert"
+	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/metadata"
+	"google.golang.org/grpc/status"
 )
+
+func TestNewProtoErrorHandler_SetsResponseContentType(t *testing.T) {
+	t.Parallel()
+
+	logger, _ := test.NewNullLogger()
+
+	handler := adapters.NewProtoErrorHandler(logger)
+
+	w := httptest.NewRecorder()
+	err := status.Error(codes.Internal, "something went wrong")
+	handler(nil, nil, nil, w, nil, err)
+
+	assert.Equal(t, "application/json", w.Result().Header.Get("Content-Type"))
+}
+
+func TestNewProtoErrorHandler_IfCalledWithStatusError_ReturnMappedHTTPError(t *testing.T) {
+	t.Parallel()
+
+	logger, _ := test.NewNullLogger()
+
+	handler := adapters.NewProtoErrorHandler(logger)
+
+	w := httptest.NewRecorder()
+	err := status.Error(codes.NotFound, "something went wrong")
+	handler(nil, nil, nil, w, nil, err)
+
+	assert.Equal(t, http.StatusNotFound, w.Result().StatusCode)
+}
+
+func TestNewProtoErrorHandler_IfCalledWithError_ReturnInternalServerError(t *testing.T) {
+	t.Parallel()
+
+	logger, _ := test.NewNullLogger()
+
+	handler := adapters.NewProtoErrorHandler(logger)
+
+	w := httptest.NewRecorder()
+	err := errors.New("something went wrong")
+	handler(nil, nil, nil, w, nil, err)
+
+	assert.Equal(t, http.StatusInternalServerError, w.Result().StatusCode)
+}
+
+func TestNewProtoErrorHandler_ReturnsErrorBody(t *testing.T) {
+	t.Parallel()
+
+	logger, _ := test.NewNullLogger()
+
+	handler := adapters.NewProtoErrorHandler(logger)
+
+	w := httptest.NewRecorder()
+	err := status.Error(codes.NotFound, "something went wrong")
+	handler(nil, nil, nil, w, nil, err)
+
+	resp := w.Result()
+	body, _ := ioutil.ReadAll(resp.Body)
+	assert.Equal(t, "{\"code\":404,\"message\":\"something went wrong\"}", string(body))
+}
 
 func TestNewHeaderMatcher(t *testing.T) {
 	t.Parallel()

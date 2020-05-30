@@ -139,3 +139,4 @@ Help:
 ## TODOs
 
 - What to do with request headers?
+- Implement paging for get all beers.

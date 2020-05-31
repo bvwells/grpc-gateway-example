@@ -1,10 +1,10 @@
 syntax = "proto3";
 
-option go_package = "github.com/bvwells/grpc-gateway-example/proto/beers";
-
 import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
 import "protoc-gen-swagger/options/annotations.proto";
+
+option go_package = "github.com/bvwells/grpc-gateway-example/proto/beers";
 
 option (grpc.gateway.protoc_gen_swagger.options.openapiv2_swagger) = {
   info: {
@@ -173,8 +173,8 @@ message GetBeersResponse {
 }
 
 message Error {
-    int32 code = 1      [(grpc.gateway.protoc_gen_swagger.options.openapiv2_field) = {description: "Response code."}];
-    string message = 2  [(grpc.gateway.protoc_gen_swagger.options.openapiv2_field) = {description: "Response message."}];
+  int32 code = 1      [(grpc.gateway.protoc_gen_swagger.options.openapiv2_field) = {description: "Response code."}];
+  string message = 2  [(grpc.gateway.protoc_gen_swagger.options.openapiv2_field) = {description: "Response message."}];
 }
 
 // Beer service.

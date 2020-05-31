@@ -98,7 +98,8 @@ func main() {
 	// Note: Make sure the gRPC server is running properly and accessible
 	mux := runtime.NewServeMux(
 		runtime.WithProtoErrorHandler(adapters.NewProtoErrorHandler(logger)),
-		runtime.WithIncomingHeaderMatcher(adapters.NewHeaderMatcher()),
+		runtime.WithIncomingHeaderMatcher(adapters.NewIncomingHeaderMatcher()),
+		runtime.WithOutgoingHeaderMatcher(adapters.NewOutgoingHeaderMatcher()),
 		runtime.WithMetadata(adapters.NewAnnotator()),
 	)
 	err = beers.RegisterBeerServiceHandler(context.Background(), mux, conn)

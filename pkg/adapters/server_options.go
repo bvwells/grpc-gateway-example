@@ -46,12 +46,27 @@ func NewProtoErrorHandler(logger *logrus.Logger) runtime.ProtoErrorHandlerFunc {
 	}
 }
 
-// NewHeaderMatcher returns a new runtime.HeaderMatcherFunc and illustrates
-// how to match request headers and add them to the grpc metadata.
-func NewHeaderMatcher() runtime.HeaderMatcherFunc {
+// NewIncomingHeaderMatcher returns a new runtime.HeaderMatcherFunc and
+// illustrates how to match incoming request headers and add them to the grpc
+// metadata.
+func NewIncomingHeaderMatcher() runtime.HeaderMatcherFunc {
 	return func(key string) (string, bool) {
 		key = textproto.CanonicalMIMEHeaderKey(key)
 		if key == "X-Request-Id" {
+			return key, true
+		}
+
+		return "", false
+	}
+}
+
+// NewOutgoingHeaderMatcher returns a new runtime.HeaderMatcherFunc and
+// illustrates how to match outgoing response headers.
+func NewOutgoingHeaderMatcher() runtime.HeaderMatcherFunc {
+	return func(key string) (string, bool) {
+		key = textproto.CanonicalMIMEHeaderKey(key)
+		if key == "Content-Type" ||
+			key == "Content-Length" {
 			return key, true
 		}
 

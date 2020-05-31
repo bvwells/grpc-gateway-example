@@ -76,7 +76,7 @@ func TestNewProtoErrorHandler_ReturnsErrorBody(t *testing.T) {
 	assert.Equal(t, "{\"code\":404,\"message\":\"something went wrong\"}", string(body))
 }
 
-func TestNewHeaderMatcher(t *testing.T) {
+func TestNewIncomingHeaderMatcher(t *testing.T) {
 	t.Parallel()
 	tests := []struct {
 		name            string
@@ -106,7 +106,56 @@ func TestNewHeaderMatcher(t *testing.T) {
 
 	for _, test := range tests {
 		t.Run(fmt.Sprintf("test %s", test.name), func(s *testing.T) {
-			canonicalHeader, allowed := adapters.NewHeaderMatcher()(test.header)
+			canonicalHeader, allowed := adapters.NewIncomingHeaderMatcher()(test.header)
+			assert.Equal(s, test.canonicalHeader, canonicalHeader)
+			assert.Equal(s, test.allowed, allowed)
+		})
+	}
+}
+
+func TestNewOutgoingHeaderMatcher(t *testing.T) {
+	t.Parallel()
+	tests := []struct {
+		name            string
+		header          string
+		canonicalHeader string
+		allowed         bool
+	}{
+		{
+			name:            "header is canonical Content-Type",
+			header:          "Content-Type",
+			canonicalHeader: "Content-Type",
+			allowed:         true,
+		},
+		{
+			name:            "header is not canonical Content-Type",
+			header:          "content-type",
+			canonicalHeader: "Content-Type",
+			allowed:         true,
+		},
+		{
+			name:            "header is canonical Content-Length",
+			header:          "Content-Length",
+			canonicalHeader: "Content-Length",
+			allowed:         true,
+		},
+		{
+			name:            "header is not canonical Content-Length",
+			header:          "content-length",
+			canonicalHeader: "Content-Length",
+			allowed:         true,
+		},
+		{
+			name:            "header is not allowed",
+			header:          "not-allowed",
+			canonicalHeader: "",
+			allowed:         false,
+		},
+	}
+
+	for _, test := range tests {
+		t.Run(fmt.Sprintf("test %s", test.name), func(s *testing.T) {
+			canonicalHeader, allowed := adapters.NewOutgoingHeaderMatcher()(test.header)
 			assert.Equal(s, test.canonicalHeader, canonicalHeader)
 			assert.Equal(s, test.allowed, allowed)
 		})

@@ -303,8 +303,8 @@ func TestGetBeers_WhenGetBeersReturnsError_ReturnsError(t *testing.T) {
 	ctx := context.Background()
 	const msg = "something went wrong"
 	expected := status.Error(codes.Internal, msg)
-	interactor.On("GetBeers", ctx, &domain.GetBeersParams{}).Return(nil, errors.New(msg))
-	_, actual := service.GetBeers(ctx, &beers.GetBeersRequest{})
+	interactor.On("GetBeers", ctx, &domain.GetBeersParams{Page: 42}).Return(nil, errors.New(msg))
+	_, actual := service.GetBeers(ctx, &beers.GetBeersRequest{Page: 42})
 	assert.Equal(t, expected, actual)
 }
 
@@ -315,8 +315,8 @@ func TestGetBeers_WhenGetBeersReturnsValidationError_ReturnsInvalidArgumentError
 	ctx := context.Background()
 	const msg = "something went wrong"
 	expected := status.Error(codes.InvalidArgument, msg)
-	interactor.On("GetBeers", ctx, &domain.GetBeersParams{}).Return(nil, domain.NewValidationError(msg))
-	_, actual := service.GetBeers(ctx, &beers.GetBeersRequest{})
+	interactor.On("GetBeers", ctx, &domain.GetBeersParams{Page: 42}).Return(nil, domain.NewValidationError(msg))
+	_, actual := service.GetBeers(ctx, &beers.GetBeersRequest{Page: 42})
 	assert.Equal(t, expected, actual)
 }
 
@@ -333,12 +333,12 @@ func TestGetBeers_WhenGetBeersReturnsBeers_ReturnsBeers(t *testing.T) {
 			{Id: "id4", Type: beers.Type_UNKNOWN},
 		},
 	}
-	interactor.On("GetBeers", ctx, &domain.GetBeersParams{}).Return([]*domain.Beer{
+	interactor.On("GetBeers", ctx, &domain.GetBeersParams{Page: 42}).Return([]*domain.Beer{
 		{ID: expected.Beers[0].Id, Type: domain.Pilsner},
 		{ID: expected.Beers[1].Id, Type: domain.Porter},
 		{ID: expected.Beers[2].Id, Type: domain.PaleAle},
 		{ID: expected.Beers[3].Id, Type: domain.Unknown},
 	}, nil)
-	actual, _ := service.GetBeers(ctx, &beers.GetBeersRequest{})
+	actual, _ := service.GetBeers(ctx, &beers.GetBeersRequest{Page: 42})
 	assert.Equal(t, expected, actual)
 }

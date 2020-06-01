@@ -149,12 +149,20 @@ func TestDeleteBeer_WhenDeleteBeerReturnsNilReturnsBeer(t *testing.T) {
 	assert.Nil(t, actual)
 }
 
+func TestGetBeers_WhenValidateReturnsError_ReturnsError(t *testing.T) {
+	t.Parallel()
+	repo := &mocks.BeerRepository{}
+	interactor := usecases.NewBeerInteractor(repo)
+	_, err := interactor.GetBeers(context.Background(), &domain.GetBeersParams{})
+	assert.NotNil(t, err)
+}
+
 func TestGetBeers_WhenGetBeersReturnsError_ReturnsError(t *testing.T) {
 	t.Parallel()
 	repo := &mocks.BeerRepository{}
 	interactor := usecases.NewBeerInteractor(repo)
 	ctx := context.Background()
-	params := &domain.GetBeersParams{}
+	params := &domain.GetBeersParams{Page: 1}
 	expected := errors.New("something went wrong")
 	repo.On("GetBeers", ctx, params).Return(nil, expected)
 	_, actual := interactor.GetBeers(ctx, params)
@@ -166,7 +174,7 @@ func TestGetBeers_WhenGetBeersReturnsBeers_ReturnsBeers(t *testing.T) {
 	repo := &mocks.BeerRepository{}
 	interactor := usecases.NewBeerInteractor(repo)
 	ctx := context.Background()
-	params := &domain.GetBeersParams{}
+	params := &domain.GetBeersParams{Page: 1}
 	expected := []*domain.Beer{
 		{ID: "id1"},
 		{ID: "id2"},

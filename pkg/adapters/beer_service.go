@@ -107,8 +107,10 @@ func (svc *BeerService) DeleteBeer(ctx context.Context, params *beers.DeleteBeer
 }
 
 // GetBeers gets all beers.
-func (svc *BeerService) GetBeers(ctx context.Context, _ *beers.GetBeersRequest) (*beers.GetBeersResponse, error) {
-	items, err := svc.interactor.GetBeers(ctx, &domain.GetBeersParams{})
+func (svc *BeerService) GetBeers(ctx context.Context, params *beers.GetBeersRequest) (*beers.GetBeersResponse, error) {
+	items, err := svc.interactor.GetBeers(ctx, &domain.GetBeersParams{
+		Page: int(params.Page),
+	})
 	if err != nil {
 		return nil, toError(err)
 	}

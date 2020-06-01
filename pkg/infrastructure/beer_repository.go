@@ -11,7 +11,7 @@ import (
 	_ "github.com/lib/pq" // imported for side effect.
 )
 
-const numberRows = 50
+const numberRowsLimit = 100
 
 // PostgresSettings describes all the settings required for setting up
 // a connection to a postgres database.
@@ -150,7 +150,8 @@ func (repo *PostgresBeerRepository) DeleteBeer(ctx context.Context, params *doma
 // GetBeers gets all beers from the postgres database.
 // TODO - return cursor to new batch of beers.
 func (repo *PostgresBeerRepository) GetBeers(ctx context.Context, params *domain.GetBeersParams) ([]*domain.Beer, error) {
-	rows, err := repo.db.Query("SELECT * FROM BEERS LIMIT $1", numberRows)
+	offset := numberRowsLimit * (params.Page - 1)
+	rows, err := repo.db.Query("SELECT * FROM BEERS OFFSET $1 LIMIT $2", offset, numberRowsLimit)
 	if err != nil {
 		return nil, err
 	}

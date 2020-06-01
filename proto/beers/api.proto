@@ -158,6 +158,8 @@ message GetBeersRequest {
       description: "Request for getting beer."
     }
   };
+
+  int32 page = 1  [(grpc.gateway.protoc_gen_swagger.options.openapiv2_field) = {description: "Page number", required: ['page']}];
 }
 
 message GetBeersResponse {

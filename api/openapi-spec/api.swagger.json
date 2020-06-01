@@ -51,6 +51,16 @@
             }
           }
         },
+        "parameters": [
+          {
+            "name": "page",
+            "description": "Page number",
+            "in": "query",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
         "tags": [
           "beers"
         ]

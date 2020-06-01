@@ -148,8 +148,13 @@ func TestGetBeersParamsValidate(t *testing.T) {
 	}{
 		{
 			name:   "all good",
-			params: &domain.GetBeersParams{},
+			params: &domain.GetBeersParams{Page: 10},
 			err:    nil,
+		},
+		{
+			name:   "invalid page number",
+			params: &domain.GetBeersParams{Page: 0},
+			err:    domain.NewValidationError("page number less than one"),
 		},
 	}
 

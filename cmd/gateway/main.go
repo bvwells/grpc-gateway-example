@@ -38,7 +38,7 @@ func newBeerService() (*adapters.BeerService, error) {
 		Host:     "localhost",
 		Port:     5432,
 		User:     "postgres",
-		Password: "docker",
+		Password: "ilovebeer",
 		DBName:   "beers",
 	}
 

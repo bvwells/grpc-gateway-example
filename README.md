@@ -77,7 +77,7 @@ brew install postgresql
 Run the docker image postgres (https://hub.docker.com/_/postgres):
 
 ```
-docker run --rm --name beers -e POSTGRES_PASSWORD=docker -p 5432:5432 -v $HOME/Git/github.com/bvwells/grpc-gateway-example/pkg/infrastructure/postres:/var/lib/postgresql/data postgres
+docker run --rm --name beers -e POSTGRES_PASSWORD=docker -p 5432:5432 -v $HOME/Git/github.com/bvwells/grpc-gateway-example/pkg/infrastructure/postgres:/var/lib/postgresql/data postgres
 ```
 
 NOTE: The environment variable POSTGRES_PASSWORD should be set to a secret when running in a real environment.

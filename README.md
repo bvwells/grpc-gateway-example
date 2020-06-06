@@ -46,7 +46,8 @@ go generate ./...
 
 This will re-generate required code. Go generate will generate grpc server/client
 stubs, the grpc gateway reverse proxy and open api definition for the protobuf
-definition. These commands can be run with the following commands:
+definition. These commands can be run independently by running the following
+commands.
 
 ### Generate gRPC server/client stub
 

@@ -76,14 +76,14 @@ func (b *DeleteBeerParams) Validate() error {
 	return nil
 }
 
-// GetBeersParams describes parameters for getting beers.
-type GetBeersParams struct {
+// ListBeersParams describes parameters for listing beers.
+type ListBeersParams struct {
 	// Page is the page number of the beers.
 	Page int
 }
 
-// Validate validates the GetBeersParams.
-func (b *GetBeersParams) Validate() error {
+// Validate validates the ListBeersParams.
+func (b *ListBeersParams) Validate() error {
 	if b.Page < 1 {
 		return NewValidationError("page number less than one")
 	}

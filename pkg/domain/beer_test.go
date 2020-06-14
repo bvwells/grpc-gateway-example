@@ -139,21 +139,21 @@ func TestDeleteBeerParamsValidate(t *testing.T) {
 	}
 }
 
-func TestGetBeersParamsValidate(t *testing.T) {
+func TestListBeersParamsValidate(t *testing.T) {
 	t.Parallel()
 	tests := []struct {
 		name   string
-		params *domain.GetBeersParams
+		params *domain.ListBeersParams
 		err    error
 	}{
 		{
 			name:   "all good",
-			params: &domain.GetBeersParams{Page: 10},
+			params: &domain.ListBeersParams{Page: 10},
 			err:    nil,
 		},
 		{
 			name:   "invalid page number",
-			params: &domain.GetBeersParams{Page: 0},
+			params: &domain.ListBeersParams{Page: 0},
 			err:    domain.NewValidationError("page number less than one"),
 		},
 	}

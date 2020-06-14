@@ -17,10 +17,10 @@ var page int32 = 1
 
 // getCmd represents the get command
 var getCmd = &cobra.Command{
-	Use:     "get",
-	Short:   "get gets beers",
-	Long:    `get gets beers`,
-	Example: `cli get beers`,
+	Use:     "list",
+	Short:   "list lists beers",
+	Long:    `list lists beers`,
+	Example: `cli list beers`,
 	Run: func(cmd *cobra.Command, args []string) {
 
 		if len(args) != 1 || args[0] != "beers" {
@@ -39,7 +39,7 @@ var getCmd = &cobra.Command{
 		c := beers.NewBeerServiceClient(conn)
 
 		ctx := context.Background()
-		resp, err := c.GetBeers(ctx, &beers.GetBeersRequest{
+		resp, err := c.ListBeers(ctx, &beers.ListBeersRequest{
 			Page: page,
 		})
 		if err != nil {

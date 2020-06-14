@@ -75,14 +75,12 @@ func TestCreateBeer_WhenCreateBeerReturnsBeer_ReturnsBeer(t *testing.T) {
 	interactor := &mocks.BeerInteractor{}
 	service := adapters.NewBeerService(interactor)
 	ctx := context.Background()
-	expected := &beers.CreateBeerResponse{
-		Beer: &beers.Beer{
-			Id:      "id",
-			Name:    "a beer",
-			Type:    beers.Type_LAGER,
-			Brewer:  "brewer",
-			Country: "country",
-		},
+	expected := &beers.Beer{
+		Id:      "id",
+		Name:    "a beer",
+		Type:    beers.Type_LAGER,
+		Brewer:  "brewer",
+		Country: "country",
 	}
 	params := &beers.CreateBeerRequest{
 		Name:    "a beer",
@@ -91,16 +89,16 @@ func TestCreateBeer_WhenCreateBeerReturnsBeer_ReturnsBeer(t *testing.T) {
 		Country: "country",
 	}
 	interactor.On("CreateBeer", ctx, &domain.CreateBeerParams{
-		Name:    expected.Beer.Name,
+		Name:    expected.Name,
 		Type:    domain.Lager,
-		Brewer:  expected.Beer.Brewer,
-		Country: expected.Beer.Country,
+		Brewer:  expected.Brewer,
+		Country: expected.Country,
 	}).Return(&domain.Beer{
-		ID:      expected.Beer.Id,
-		Name:    expected.Beer.Name,
+		ID:      expected.Id,
+		Name:    expected.Name,
 		Type:    domain.Lager,
-		Brewer:  expected.Beer.Brewer,
-		Country: expected.Beer.Country,
+		Brewer:  expected.Brewer,
+		Country: expected.Country,
 	}, nil)
 	actual, _ := service.CreateBeer(ctx, params)
 	assert.Equal(t, expected, actual)
@@ -140,21 +138,19 @@ func TestGetBeer_WhenGetBeerReturnsBeer_ReturnsBeer(t *testing.T) {
 	service := adapters.NewBeerService(interactor)
 	ctx := context.Background()
 	params := &beers.GetBeerRequest{Id: "ID"}
-	expected := &beers.GetBeerResponse{
-		Beer: &beers.Beer{
-			Id:      "id",
-			Name:    "a beer",
-			Type:    beers.Type_INDIA_PALE_ALE,
-			Brewer:  "brewer",
-			Country: "country",
-		},
+	expected := &beers.Beer{
+		Id:      "id",
+		Name:    "a beer",
+		Type:    beers.Type_INDIA_PALE_ALE,
+		Brewer:  "brewer",
+		Country: "country",
 	}
 	interactor.On("GetBeer", ctx, &domain.GetBeerParams{ID: params.Id}).Return(&domain.Beer{
-		ID:      expected.Beer.Id,
-		Name:    expected.Beer.Name,
+		ID:      expected.Id,
+		Name:    expected.Name,
 		Type:    domain.IndiaPaleAle,
-		Brewer:  expected.Beer.Brewer,
-		Country: expected.Beer.Country,
+		Brewer:  expected.Brewer,
+		Country: expected.Country,
 	}, nil)
 	actual, _ := service.GetBeer(ctx, params)
 	assert.Equal(t, expected, actual)
@@ -232,14 +228,12 @@ func TestUpdateBeer_WhenUpdateBeerReturnsBeer_ReturnsBeer(t *testing.T) {
 		Beer:       &beers.Beer{Id: "id", Name: "name", Type: beers.Type_STOUT, Brewer: "brewer", Country: "Country"},
 		UpdateMask: &field_mask.FieldMask{Paths: []string{"NaMe", "type", "Country", "breweR"}},
 	}
-	expected := &beers.UpdateBeerResponse{
-		Beer: &beers.Beer{
-			Id:      "id",
-			Name:    "a beer",
-			Type:    beers.Type_STOUT,
-			Brewer:  "brewer",
-			Country: "country",
-		},
+	expected := &beers.Beer{
+		Id:      "id",
+		Name:    "a beer",
+		Type:    beers.Type_STOUT,
+		Brewer:  "brewer",
+		Country: "country",
 	}
 	beerType := domain.Stout
 	interactor.On("UpdateBeer", ctx, &domain.UpdateBeerParams{
@@ -249,11 +243,11 @@ func TestUpdateBeer_WhenUpdateBeerReturnsBeer_ReturnsBeer(t *testing.T) {
 		Type:    &beerType,
 		Country: &params.Beer.Country,
 	}).Return(&domain.Beer{
-		ID:      expected.Beer.Id,
-		Name:    expected.Beer.Name,
+		ID:      expected.Id,
+		Name:    expected.Name,
 		Type:    domain.Stout,
-		Brewer:  expected.Beer.Brewer,
-		Country: expected.Beer.Country,
+		Brewer:  expected.Brewer,
+		Country: expected.Country,
 	}, nil)
 	actual, _ := service.UpdateBeer(ctx, params)
 	assert.Equal(t, expected, actual)
@@ -296,36 +290,36 @@ func TestDeleteBeer_WhenDeleteBeerReturnsNil_ReturnsNilError(t *testing.T) {
 	assert.Nil(t, actual)
 }
 
-func TestGetBeers_WhenGetBeersReturnsError_ReturnsError(t *testing.T) {
+func TestListBeers_WhenListBeersReturnsError_ReturnsError(t *testing.T) {
 	t.Parallel()
 	interactor := &mocks.BeerInteractor{}
 	service := adapters.NewBeerService(interactor)
 	ctx := context.Background()
 	const msg = "something went wrong"
 	expected := status.Error(codes.Internal, msg)
-	interactor.On("GetBeers", ctx, &domain.GetBeersParams{Page: 42}).Return(nil, errors.New(msg))
-	_, actual := service.GetBeers(ctx, &beers.GetBeersRequest{Page: 42})
+	interactor.On("ListBeers", ctx, &domain.ListBeersParams{Page: 42}).Return(nil, errors.New(msg))
+	_, actual := service.ListBeers(ctx, &beers.ListBeersRequest{Page: 42})
 	assert.Equal(t, expected, actual)
 }
 
-func TestGetBeers_WhenGetBeersReturnsValidationError_ReturnsInvalidArgumentError(t *testing.T) {
+func TestListBeers_WhenListBeersReturnsValidationError_ReturnsInvalidArgumentError(t *testing.T) {
 	t.Parallel()
 	interactor := &mocks.BeerInteractor{}
 	service := adapters.NewBeerService(interactor)
 	ctx := context.Background()
 	const msg = "something went wrong"
 	expected := status.Error(codes.InvalidArgument, msg)
-	interactor.On("GetBeers", ctx, &domain.GetBeersParams{Page: 42}).Return(nil, domain.NewValidationError(msg))
-	_, actual := service.GetBeers(ctx, &beers.GetBeersRequest{Page: 42})
+	interactor.On("ListBeers", ctx, &domain.ListBeersParams{Page: 42}).Return(nil, domain.NewValidationError(msg))
+	_, actual := service.ListBeers(ctx, &beers.ListBeersRequest{Page: 42})
 	assert.Equal(t, expected, actual)
 }
 
-func TestGetBeers_WhenGetBeersReturnsBeers_ReturnsBeers(t *testing.T) {
+func TestListBeers_WhenListBeersReturnsBeers_ReturnsBeers(t *testing.T) {
 	t.Parallel()
 	interactor := &mocks.BeerInteractor{}
 	service := adapters.NewBeerService(interactor)
 	ctx := context.Background()
-	expected := &beers.GetBeersResponse{
+	expected := &beers.ListBeersResponse{
 		Beers: []*beers.Beer{
 			{Id: "id1", Type: beers.Type_PILSNER},
 			{Id: "id2", Type: beers.Type_PORTER},
@@ -333,12 +327,12 @@ func TestGetBeers_WhenGetBeersReturnsBeers_ReturnsBeers(t *testing.T) {
 			{Id: "id4", Type: beers.Type_UNKNOWN},
 		},
 	}
-	interactor.On("GetBeers", ctx, &domain.GetBeersParams{Page: 42}).Return([]*domain.Beer{
+	interactor.On("ListBeers", ctx, &domain.ListBeersParams{Page: 42}).Return([]*domain.Beer{
 		{ID: expected.Beers[0].Id, Type: domain.Pilsner},
 		{ID: expected.Beers[1].Id, Type: domain.Porter},
 		{ID: expected.Beers[2].Id, Type: domain.PaleAle},
 		{ID: expected.Beers[3].Id, Type: domain.Unknown},
 	}, nil)
-	actual, _ := service.GetBeers(ctx, &beers.GetBeersRequest{Page: 42})
+	actual, _ := service.ListBeers(ctx, &beers.ListBeersRequest{Page: 42})
 	assert.Equal(t, expected, actual)
 }

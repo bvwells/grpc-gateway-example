@@ -147,8 +147,8 @@ func (repo *PostgresBeerRepository) DeleteBeer(ctx context.Context, params *doma
 	return nil
 }
 
-// GetBeers gets all beers from the postgres database.
-func (repo *PostgresBeerRepository) GetBeers(ctx context.Context, params *domain.GetBeersParams) ([]*domain.Beer, error) {
+// ListBeers lists all beers from the postgres database.
+func (repo *PostgresBeerRepository) ListBeers(ctx context.Context, params *domain.ListBeersParams) ([]*domain.Beer, error) {
 	offset := numberRowsLimit * (params.Page - 1)
 	rows, err := repo.db.Query("SELECT * FROM BEERS OFFSET $1 LIMIT $2", offset, numberRowsLimit)
 	if err != nil {

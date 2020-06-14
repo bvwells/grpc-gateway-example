@@ -16,6 +16,6 @@ type BeerRepository interface {
 	UpdateBeer(ctx context.Context, params *domain.UpdateBeerParams) (*domain.Beer, error)
 	// DeleteBeer deletes a beer.
 	DeleteBeer(ctx context.Context, params *domain.DeleteBeerParams) error
-	// GetBeers gets beers.
-	GetBeers(ctx context.Context, params *domain.GetBeersParams) ([]*domain.Beer, error)
+	// ListBeers lists beers.
+	ListBeers(ctx context.Context, params *domain.ListBeersParams) ([]*domain.Beer, error)
 }

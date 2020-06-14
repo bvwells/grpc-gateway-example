@@ -1,6 +1,7 @@
 syntax = "proto3";
 
 import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
 import "google/protobuf/field_mask.proto";
 import "protoc-gen-swagger/options/annotations.proto";
 
@@ -66,18 +67,6 @@ message CreateBeerRequest {
   string country = 4  [(grpc.gateway.protoc_gen_swagger.options.openapiv2_field) = {description: "The country the been originated from."}];
 }
 
-message CreateBeerResponse {
-  option (grpc.gateway.protoc_gen_swagger.options.openapiv2_schema) = {
-    json_schema: {
-      title: "CreateBeerResponse"
-      description: "Response from creating a beer."
-      required: ["beer"]
-    }
-  };
-
-  Beer beer = 1     [(grpc.gateway.protoc_gen_swagger.options.openapiv2_field) = {description: "The beer created."}];
-}
-
 message GetBeerRequest {
   option (grpc.gateway.protoc_gen_swagger.options.openapiv2_schema) = {
     json_schema: {
@@ -88,18 +77,6 @@ message GetBeerRequest {
   };
 
   string id = 1   [(grpc.gateway.protoc_gen_swagger.options.openapiv2_field) = {description: "Beer identifier", required: ['id']}];
-}
-
-message GetBeerResponse {
-  option (grpc.gateway.protoc_gen_swagger.options.openapiv2_schema) = {
-    json_schema: {
-      title: "GetBeerResponse"
-      description: "Response from getting a beer."
-      required: ["beer"]
-    }
-  };
-
-  Beer beer = 1     [(grpc.gateway.protoc_gen_swagger.options.openapiv2_field) = {description: "The beer."}];
 }
 
 message UpdateBeerRequest {
@@ -118,18 +95,6 @@ message UpdateBeerRequest {
   google.protobuf.FieldMask update_mask = 2;
 }
 
-message UpdateBeerResponse {
-  option (grpc.gateway.protoc_gen_swagger.options.openapiv2_schema) = {
-    json_schema: {
-      title: "UpdateBeerResponse"
-      description: "Response from updating a beer."
-      required: ["beer"]
-    }
-  };
-
-  Beer beer = 1     [(grpc.gateway.protoc_gen_swagger.options.openapiv2_field) = {description: "The beer updated."}];
-}
-
 message DeleteBeerRequest {
   option (grpc.gateway.protoc_gen_swagger.options.openapiv2_schema) = {
     json_schema: {
@@ -142,31 +107,22 @@ message DeleteBeerRequest {
   string id = 1   [(grpc.gateway.protoc_gen_swagger.options.openapiv2_field) = {description: "Beer identifier", required: ['id']}];
 }
 
-message DeleteBeerResponse {
+message ListBeersRequest {
   option (grpc.gateway.protoc_gen_swagger.options.openapiv2_schema) = {
     json_schema: {
-      title: "UpdateBeerResponse"
-      description: "Response from deleting a beer."
-    }
-  };
-}
-
-message GetBeersRequest {
-  option (grpc.gateway.protoc_gen_swagger.options.openapiv2_schema) = {
-    json_schema: {
-      title: "GetBeersRequest"
-      description: "Request for getting beer."
+      title: "ListBeersRequest"
+      description: "Request for listing beers."
     }
   };
 
   int32 page = 1  [(grpc.gateway.protoc_gen_swagger.options.openapiv2_field) = {description: "Page number", required: ['page']}];
 }
 
-message GetBeersResponse {
+message ListBeersResponse {
   option (grpc.gateway.protoc_gen_swagger.options.openapiv2_schema) = {
     json_schema: {
-      title: "GetBeersResponse"
-      description: "Response from gettings beer."
+      title: "ListBeersResponse"
+      description: "Response from listing beers."
       required: ["beers"]
     }
   };
@@ -183,7 +139,7 @@ message Error {
 service BeerService {
 
   // CreateBeer creates a beer.
-  rpc CreateBeer(CreateBeerRequest) returns (CreateBeerResponse) {
+  rpc CreateBeer(CreateBeerRequest) returns (Beer) {
     option (google.api.http) = {
       post: "/api/v1/beers"
       body: "*"
@@ -236,7 +192,7 @@ service BeerService {
   }
 
   // GetBeer gets a beer given its ID.
-  rpc GetBeer(GetBeerRequest) returns (GetBeerResponse) {
+  rpc GetBeer(GetBeerRequest) returns (Beer) {
     option (google.api.http) = {
       get: "/api/v1/beers/{id}"
     };
@@ -310,7 +266,7 @@ service BeerService {
   }
 
   // UpdateBeer updates a beer given its ID.
-  rpc UpdateBeer(UpdateBeerRequest) returns (UpdateBeerResponse) {
+  rpc UpdateBeer(UpdateBeerRequest) returns (Beer) {
     option (google.api.http) = {
       patch: "/api/v1/beers/{beer.id}"
       body: "beer"
@@ -385,7 +341,7 @@ service BeerService {
   }
 
   // DeleteBeer deletes a beer given its ID.
-  rpc DeleteBeer(DeleteBeerRequest) returns (DeleteBeerResponse) {
+  rpc DeleteBeer(DeleteBeerRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
       delete: "/api/v1/beers/{id}"
     };
@@ -458,15 +414,15 @@ service BeerService {
     };
   }
 
-  // GetBeers gets beers.
-  rpc GetBeers(GetBeersRequest) returns (GetBeersResponse) {
+  // ListBeers lists beers.
+  rpc ListBeers(ListBeersRequest) returns (ListBeersResponse) {
     option (google.api.http) = {
       get: "/api/v1/beers"
     };
 
     option (grpc.gateway.protoc_gen_swagger.options.openapiv2_operation) = {
-      summary: "Get all beers.";
-      operation_id: "getBeers";
+      summary: "Lists all beers.";
+      operation_id: "listBeers";
       tags: "beers";
       responses: {
         key: "200"

@@ -74,12 +74,12 @@ func (_m *BeerRepository) GetBeer(ctx context.Context, params *domain.GetBeerPar
 	return r0, r1
 }
 
-// GetBeers provides a mock function with given fields: ctx, params
-func (_m *BeerRepository) GetBeers(ctx context.Context, params *domain.GetBeersParams) ([]*domain.Beer, error) {
+// ListBeers provides a mock function with given fields: ctx, params
+func (_m *BeerRepository) ListBeers(ctx context.Context, params *domain.ListBeersParams) ([]*domain.Beer, error) {
 	ret := _m.Called(ctx, params)
 
 	var r0 []*domain.Beer
-	if rf, ok := ret.Get(0).(func(context.Context, *domain.GetBeersParams) []*domain.Beer); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, *domain.ListBeersParams) []*domain.Beer); ok {
 		r0 = rf(ctx, params)
 	} else {
 		if ret.Get(0) != nil {
@@ -88,7 +88,7 @@ func (_m *BeerRepository) GetBeers(ctx context.Context, params *domain.GetBeersP
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(context.Context, *domain.GetBeersParams) error); ok {
+	if rf, ok := ret.Get(1).(func(context.Context, *domain.ListBeersParams) error); ok {
 		r1 = rf(ctx, params)
 	} else {
 		r1 = ret.Error(1)

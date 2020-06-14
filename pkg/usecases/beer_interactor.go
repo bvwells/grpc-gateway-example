@@ -72,14 +72,14 @@ func (interactor *BeerInteractor) DeleteBeer(ctx context.Context, params *domain
 	return nil
 }
 
-// GetBeers is an API for getting beers.
-func (interactor *BeerInteractor) GetBeers(ctx context.Context, params *domain.GetBeersParams) ([]*domain.Beer, error) {
+// ListBeers is an API for listing beers.
+func (interactor *BeerInteractor) ListBeers(ctx context.Context, params *domain.ListBeersParams) ([]*domain.Beer, error) {
 	err := params.Validate()
 	if err != nil {
 		return nil, err
 	}
 
-	beers, err := interactor.repo.GetBeers(ctx, params)
+	beers, err := interactor.repo.ListBeers(ctx, params)
 	if err != nil {
 		return nil, err
 	}

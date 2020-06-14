@@ -23,13 +23,13 @@
   "paths": {
     "/api/v1/beers": {
       "get": {
-        "summary": "Get all beers.",
-        "operationId": "getBeers",
+        "summary": "Lists all beers.",
+        "operationId": "listBeers",
         "responses": {
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/GetBeersResponse"
+              "$ref": "#/definitions/ListBeersResponse"
             }
           },
           "401": {
@@ -72,7 +72,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/CreateBeerResponse"
+              "$ref": "#/definitions/Beer"
             }
           },
           "401": {
@@ -117,7 +117,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/UpdateBeerResponse"
+              "$ref": "#/definitions/Beer"
             }
           },
           "400": {
@@ -181,7 +181,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/GetBeerResponse"
+              "$ref": "#/definitions/Beer"
             }
           },
           "400": {
@@ -235,7 +235,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/DeleteBeerResponse"
+              "properties": {}
             }
           },
           "400": {
@@ -342,25 +342,6 @@
         "name"
       ]
     },
-    "CreateBeerResponse": {
-      "type": "object",
-      "properties": {
-        "beer": {
-          "$ref": "#/definitions/Beer",
-          "description": "The beer created."
-        }
-      },
-      "description": "Response from creating a beer.",
-      "title": "CreateBeerResponse",
-      "required": [
-        "beer"
-      ]
-    },
-    "DeleteBeerResponse": {
-      "type": "object",
-      "description": "Response from deleting a beer.",
-      "title": "UpdateBeerResponse"
-    },
     "Error": {
       "type": "object",
       "properties": {
@@ -375,21 +356,7 @@
         }
       }
     },
-    "GetBeerResponse": {
-      "type": "object",
-      "properties": {
-        "beer": {
-          "$ref": "#/definitions/Beer",
-          "description": "The beer."
-        }
-      },
-      "description": "Response from getting a beer.",
-      "title": "GetBeerResponse",
-      "required": [
-        "beer"
-      ]
-    },
-    "GetBeersResponse": {
+    "ListBeersResponse": {
       "type": "object",
       "properties": {
         "beers": {
@@ -400,8 +367,8 @@
           "description": "The beers."
         }
       },
-      "description": "Response from gettings beer.",
-      "title": "GetBeersResponse",
+      "description": "Response from listing beers.",
+      "title": "ListBeersResponse",
       "required": [
         "beers"
       ]
@@ -420,20 +387,6 @@
         "PALE_ALE"
       ],
       "default": "UNKNOWN"
-    },
-    "UpdateBeerResponse": {
-      "type": "object",
-      "properties": {
-        "beer": {
-          "$ref": "#/definitions/Beer",
-          "description": "The beer updated."
-        }
-      },
-      "description": "Response from updating a beer.",
-      "title": "UpdateBeerResponse",
-      "required": [
-        "beer"
-      ]
     }
   }
 }

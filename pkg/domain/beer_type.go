@@ -1,11 +1,11 @@
 package domain
 
-// Type describes the beer type.
-type Type int
+// BeerType describes the beer type.
+type BeerType int
 
 const (
-	// Unknown beer type
-	Unknown Type = iota + 1 // Unknown beer type
+	// Unspecified beer type
+	Unspecified BeerType = iota + 1 // Unspecified beer type
 	// Ale is a beer type, see  https://en.wikipedia.org/wiki/Ale
 	Ale
 	// Bitter is a beer type, see https://en.wikipedia.org/wiki/Bitter_(beer)
@@ -25,7 +25,7 @@ const (
 )
 
 var types = [...]string{
-	"Unknown",
+	"Unspecified",
 	"Ale",
 	"Bitter",
 	"Lager",
@@ -37,9 +37,9 @@ var types = [...]string{
 }
 
 // String returns the string representation of a beer type.
-func (t Type) String() string {
-	if Unknown <= t && t <= PaleAle {
+func (t BeerType) String() string {
+	if Unspecified <= t && t <= PaleAle {
 		return types[t-1]
 	}
-	return "Unknown"
+	return "Unspecified"
 }

@@ -4,7 +4,7 @@ package domain
 type Beer struct {
 	ID      string
 	Name    string
-	Type    Type
+	Type    BeerType
 	Brewer  string
 	Country string
 }
@@ -20,7 +20,7 @@ func (b *Beer) Validate() error {
 // CreateBeerParams describes parameters for creating a beer.
 type CreateBeerParams struct {
 	Name    string
-	Type    Type
+	Type    BeerType
 	Brewer  string
 	Country string
 }
@@ -50,7 +50,7 @@ func (b *GetBeerParams) Validate() error {
 type UpdateBeerParams struct {
 	ID      string
 	Name    *string
-	Type    *Type
+	Type    *BeerType
 	Brewer  *string
 	Country *string
 }

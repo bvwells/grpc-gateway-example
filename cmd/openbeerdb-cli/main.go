@@ -98,7 +98,7 @@ func getField(beer *Beer, fieldName string) string {
 	return val
 }
 
-func getType(in string) domain.Type {
+func getType(in string) domain.BeerType {
 	switch in {
 	case "American-Style Brown Ale":
 		return domain.Ale
@@ -129,7 +129,7 @@ func getType(in string) domain.Type {
 	case "American-Style Lager":
 		return domain.Lager
 	case "Out of Category":
-		return domain.Unknown
+		return domain.Unspecified
 	case "American-Style Imperial Stout":
 		return domain.Stout
 	case "Herb and Spice Beer":
@@ -235,6 +235,6 @@ func getType(in string) domain.Type {
 	case "Strong Ale":
 		return domain.Ale
 	default:
-		return domain.Unknown
+		return domain.Unspecified
 	}
 }

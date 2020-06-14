@@ -297,7 +297,7 @@
           "description": "The name of the beer."
         },
         "type": {
-          "$ref": "#/definitions/Type",
+          "$ref": "#/definitions/BeerType",
           "description": "The type of the beer."
         },
         "brewer": {
@@ -316,6 +316,21 @@
         "name"
       ]
     },
+    "BeerType": {
+      "type": "string",
+      "enum": [
+        "BEER_TYPE_UNSPECIFIED",
+        "BEER_TYPE_ALE",
+        "BEER_TYPE_BITTER",
+        "BEER_TYPE_LAGER",
+        "BEER_TYPE_INDIA_PALE_ALE",
+        "BEER_TYPE_STOUT",
+        "BEER_TYPE_PILSNER",
+        "BEER_TYPE_PORTER",
+        "BEER_TYPE_PALE_ALE"
+      ],
+      "default": "BEER_TYPE_UNSPECIFIED"
+    },
     "CreateBeerRequest": {
       "type": "object",
       "properties": {
@@ -324,7 +339,7 @@
           "description": "The name of the beer."
         },
         "type": {
-          "$ref": "#/definitions/Type",
+          "$ref": "#/definitions/BeerType",
           "description": "The type of the beer."
         },
         "brewer": {
@@ -372,21 +387,6 @@
       "required": [
         "beers"
       ]
-    },
-    "Type": {
-      "type": "string",
-      "enum": [
-        "UNKNOWN",
-        "ALE",
-        "BITTER",
-        "LAGER",
-        "INDIA_PALE_ALE",
-        "STOUT",
-        "PILSNER",
-        "PORTER",
-        "PALE_ALE"
-      ],
-      "default": "UNKNOWN"
     }
   }
 }

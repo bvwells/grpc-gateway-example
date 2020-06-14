@@ -180,7 +180,7 @@ func toDomainBeer(in *postgresBeer) *domain.Beer {
 	return &domain.Beer{
 		ID:      in.ID,
 		Name:    in.Name,
-		Type:    domain.Type(in.Type),
+		Type:    domain.BeerType(in.Type),
 		Brewer:  in.Brewer,
 		Country: in.Country,
 	}

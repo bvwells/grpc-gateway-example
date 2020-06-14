@@ -128,52 +128,52 @@ func toProtoBeer(in *domain.Beer) *beers.Beer {
 	}
 }
 
-func toProtoType(in domain.Type) beers.Type {
+func toProtoType(in domain.BeerType) beers.BeerType {
 	switch in {
 	case domain.Ale:
-		return beers.Type_ALE
+		return beers.BeerType_BEER_TYPE_ALE
 	case domain.Bitter:
-		return beers.Type_BITTER
+		return beers.BeerType_BEER_TYPE_BITTER
 	case domain.Lager:
-		return beers.Type_LAGER
+		return beers.BeerType_BEER_TYPE_LAGER
 	case domain.IndiaPaleAle:
-		return beers.Type_INDIA_PALE_ALE
+		return beers.BeerType_BEER_TYPE_INDIA_PALE_ALE
 	case domain.Stout:
-		return beers.Type_STOUT
+		return beers.BeerType_BEER_TYPE_STOUT
 	case domain.Pilsner:
-		return beers.Type_PILSNER
+		return beers.BeerType_BEER_TYPE_PILSNER
 	case domain.Porter:
-		return beers.Type_PORTER
+		return beers.BeerType_BEER_TYPE_PORTER
 	case domain.PaleAle:
-		return beers.Type_PALE_ALE
-	case domain.Unknown:
-		return beers.Type_UNKNOWN
+		return beers.BeerType_BEER_TYPE_PALE_ALE
+	case domain.Unspecified:
+		return beers.BeerType_BEER_TYPE_UNSPECIFIED
 	}
-	return beers.Type_UNKNOWN
+	return beers.BeerType_BEER_TYPE_UNSPECIFIED
 }
 
-func fromProtoType(in beers.Type) domain.Type {
+func fromProtoType(in beers.BeerType) domain.BeerType {
 	switch in {
-	case beers.Type_ALE:
+	case beers.BeerType_BEER_TYPE_ALE:
 		return domain.Ale
-	case beers.Type_BITTER:
+	case beers.BeerType_BEER_TYPE_BITTER:
 		return domain.Bitter
-	case beers.Type_LAGER:
+	case beers.BeerType_BEER_TYPE_LAGER:
 		return domain.Lager
-	case beers.Type_INDIA_PALE_ALE:
+	case beers.BeerType_BEER_TYPE_INDIA_PALE_ALE:
 		return domain.IndiaPaleAle
-	case beers.Type_STOUT:
+	case beers.BeerType_BEER_TYPE_STOUT:
 		return domain.Stout
-	case beers.Type_PILSNER:
+	case beers.BeerType_BEER_TYPE_PILSNER:
 		return domain.Pilsner
-	case beers.Type_PORTER:
+	case beers.BeerType_BEER_TYPE_PORTER:
 		return domain.Porter
-	case beers.Type_PALE_ALE:
+	case beers.BeerType_BEER_TYPE_PALE_ALE:
 		return domain.PaleAle
-	case beers.Type_UNKNOWN:
-		return domain.Unknown
+	case beers.BeerType_BEER_TYPE_UNSPECIFIED:
+		return domain.Unspecified
 	}
-	return domain.Unknown
+	return domain.Unspecified
 }
 
 func toError(err error) error {

@@ -8,9 +8,9 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestTypeString(t *testing.T) {
+func TestBeerTypeString(t *testing.T) {
 	tests := []struct {
-		ty  domain.Type
+		ty  domain.BeerType
 		val string
 	}{
 		{
@@ -46,8 +46,8 @@ func TestTypeString(t *testing.T) {
 			val: "PaleAle",
 		},
 		{
-			ty:  domain.Type(-100),
-			val: "Unknown",
+			ty:  domain.BeerType(-100),
+			val: "Unspecified",
 		},
 	}
 

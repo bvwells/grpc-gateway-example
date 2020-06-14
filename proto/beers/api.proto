@@ -24,16 +24,16 @@ option (grpc.gateway.protoc_gen_swagger.options.openapiv2_swagger) = {
   produces: "application/json";
 };
 
-enum Type {
-  UNKNOWN = 0;
-  ALE = 1;
-  BITTER = 2;
-  LAGER = 3;
-  INDIA_PALE_ALE = 4;
-  STOUT = 5;
-  PILSNER = 6;
-  PORTER = 7;
-  PALE_ALE = 8;
+enum BeerType {
+  BEER_TYPE_UNSPECIFIED = 0;
+  BEER_TYPE_ALE = 1;
+  BEER_TYPE_BITTER = 2;
+  BEER_TYPE_LAGER = 3;
+  BEER_TYPE_INDIA_PALE_ALE = 4;
+  BEER_TYPE_STOUT = 5;
+  BEER_TYPE_PILSNER = 6;
+  BEER_TYPE_PORTER = 7;
+  BEER_TYPE_PALE_ALE = 8;
 }
 
 message Beer {
@@ -47,7 +47,7 @@ message Beer {
 
   string id = 1       [(grpc.gateway.protoc_gen_swagger.options.openapiv2_field) = {description: "The unique identifier of the beer."}];
   string name = 2     [(grpc.gateway.protoc_gen_swagger.options.openapiv2_field) = {description: "The name of the beer."}];
-  Type type = 3       [(grpc.gateway.protoc_gen_swagger.options.openapiv2_field) = {description: "The type of the beer."}];
+  BeerType type = 3   [(grpc.gateway.protoc_gen_swagger.options.openapiv2_field) = {description: "The type of the beer."}];
   string brewer = 4   [(grpc.gateway.protoc_gen_swagger.options.openapiv2_field) = {description: "The brewer of the beer."}];
   string country = 5  [(grpc.gateway.protoc_gen_swagger.options.openapiv2_field) = {description: "The country the been originated from."}];
 }
@@ -62,7 +62,7 @@ message CreateBeerRequest {
   };
 
   string name = 1     [(grpc.gateway.protoc_gen_swagger.options.openapiv2_field) = {description: "The name of the beer."}];
-  Type type = 2       [(grpc.gateway.protoc_gen_swagger.options.openapiv2_field) = {description: "The type of the beer."}];
+  BeerType type = 2   [(grpc.gateway.protoc_gen_swagger.options.openapiv2_field) = {description: "The type of the beer."}];
   string brewer = 3   [(grpc.gateway.protoc_gen_swagger.options.openapiv2_field) = {description: "The brewer of the beer."}];
   string country = 4  [(grpc.gateway.protoc_gen_swagger.options.openapiv2_field) = {description: "The country the been originated from."}];
 }

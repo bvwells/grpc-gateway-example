@@ -31,7 +31,7 @@ func TestCreateBeer_WhenCreateBeerReturnsError_ReturnsError(t *testing.T) {
 	ctx := context.Background()
 	params := &beers.CreateBeerRequest{
 		Name:    "a beer",
-		Type:    beers.Type_ALE,
+		Type:    beers.BeerType_BEER_TYPE_ALE,
 		Brewer:  "brewer",
 		Country: "country",
 	}
@@ -54,7 +54,7 @@ func TestCreateBeer_WhenCreateBeerReturnsValidationError_ReturnsInvalidArgumentE
 	ctx := context.Background()
 	params := &beers.CreateBeerRequest{
 		Name:    "a beer",
-		Type:    beers.Type_BITTER,
+		Type:    beers.BeerType_BEER_TYPE_BITTER,
 		Brewer:  "brewer",
 		Country: "country",
 	}
@@ -78,13 +78,13 @@ func TestCreateBeer_WhenCreateBeerReturnsBeer_ReturnsBeer(t *testing.T) {
 	expected := &beers.Beer{
 		Id:      "id",
 		Name:    "a beer",
-		Type:    beers.Type_LAGER,
+		Type:    beers.BeerType_BEER_TYPE_LAGER,
 		Brewer:  "brewer",
 		Country: "country",
 	}
 	params := &beers.CreateBeerRequest{
 		Name:    "a beer",
-		Type:    beers.Type_LAGER,
+		Type:    beers.BeerType_BEER_TYPE_LAGER,
 		Brewer:  "brewer",
 		Country: "country",
 	}
@@ -141,7 +141,7 @@ func TestGetBeer_WhenGetBeerReturnsBeer_ReturnsBeer(t *testing.T) {
 	expected := &beers.Beer{
 		Id:      "id",
 		Name:    "a beer",
-		Type:    beers.Type_INDIA_PALE_ALE,
+		Type:    beers.BeerType_BEER_TYPE_INDIA_PALE_ALE,
 		Brewer:  "brewer",
 		Country: "country",
 	}
@@ -225,13 +225,13 @@ func TestUpdateBeer_WhenUpdateBeerReturnsBeer_ReturnsBeer(t *testing.T) {
 	service := adapters.NewBeerService(interactor)
 	ctx := context.Background()
 	params := &beers.UpdateBeerRequest{
-		Beer:       &beers.Beer{Id: "id", Name: "name", Type: beers.Type_STOUT, Brewer: "brewer", Country: "Country"},
+		Beer:       &beers.Beer{Id: "id", Name: "name", Type: beers.BeerType_BEER_TYPE_STOUT, Brewer: "brewer", Country: "Country"},
 		UpdateMask: &field_mask.FieldMask{Paths: []string{"NaMe", "type", "Country", "breweR"}},
 	}
 	expected := &beers.Beer{
 		Id:      "id",
 		Name:    "a beer",
-		Type:    beers.Type_STOUT,
+		Type:    beers.BeerType_BEER_TYPE_STOUT,
 		Brewer:  "brewer",
 		Country: "country",
 	}
@@ -321,17 +321,17 @@ func TestListBeers_WhenListBeersReturnsBeers_ReturnsBeers(t *testing.T) {
 	ctx := context.Background()
 	expected := &beers.ListBeersResponse{
 		Beers: []*beers.Beer{
-			{Id: "id1", Type: beers.Type_PILSNER},
-			{Id: "id2", Type: beers.Type_PORTER},
-			{Id: "id3", Type: beers.Type_PALE_ALE},
-			{Id: "id4", Type: beers.Type_UNKNOWN},
+			{Id: "id1", Type: beers.BeerType_BEER_TYPE_PILSNER},
+			{Id: "id2", Type: beers.BeerType_BEER_TYPE_PORTER},
+			{Id: "id3", Type: beers.BeerType_BEER_TYPE_PALE_ALE},
+			{Id: "id4", Type: beers.BeerType_BEER_TYPE_UNSPECIFIED},
 		},
 	}
 	interactor.On("ListBeers", ctx, &domain.ListBeersParams{Page: 42}).Return([]*domain.Beer{
 		{ID: expected.Beers[0].Id, Type: domain.Pilsner},
 		{ID: expected.Beers[1].Id, Type: domain.Porter},
 		{ID: expected.Beers[2].Id, Type: domain.PaleAle},
-		{ID: expected.Beers[3].Id, Type: domain.Unknown},
+		{ID: expected.Beers[3].Id, Type: domain.Unspecified},
 	}, nil)
 	actual, _ := service.ListBeers(ctx, &beers.ListBeersRequest{Page: 42})
 	assert.Equal(t, expected, actual)

@@ -1,6 +1,9 @@
 # gRPC Gateway Example
 
-[![Build Status](https://travis-ci.org/bvwells/grpc-gateway-example.svg?branch=master)](https://travis-ci.org/bvwells/grpc-gateway-example)
+[![go.dev reference](https://img.shields.io/badge/go.dev-reference-007d9c?logo=go&logoColor=white&style=flat-square)](https://pkg.go.dev/github.com/bvwells/grpc-gateway-example?tab=overview)
+![GitHub go.mod Go version](https://img.shields.io/github/go-mod/go-version/bvwells/grpc-gateway-example)
+![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/bvwells/grpc-gateway-example) 
+[![Build Status](https://travis-ci.com/bvwells/grpc-gateway-example.svg?branch=master)](https://travis-ci.com/bvwells/grpc-gateway-example)
 [![codecov](https://codecov.io/gh/bvwells/grpc-gateway-example/branch/master/graph/badge.svg)](https://codecov.io/gh/bvwells/grpc-gateway-example)
 [![Go Report Card](https://goreportcard.com/badge/github.com/bvwells/grpc-gateway-example)](https://goreportcard.com/report/github.com/bvwells/grpc-gateway-example)
 
